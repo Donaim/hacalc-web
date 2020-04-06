@@ -6,21 +6,39 @@ class ConsoleInput extends Component {
     constructor(args) {
         super();
 
-        this.state = {value: '2 + 2'};
+        this.immediateValue = '2 + 2';
+        this.state = {value: this.immediateValue};
 
         const historyAddItem = getInterface('history:add-item');
 
+        this.updateValue = (value) => {
+            this.immediateValue = value;
+            this.setState({value: value});
+        };
+
         this.onChangeHandler = (e) => {
             const value = e.target.value;
-            this.setState({value: value});
-            historyAddItem(value);
+            this.updateValue(value);
+        };
+
+        this.onSubmitHandler = (e) => {
+            e.preventDefault();
+            console.log('submitting', e);
+
+            historyAddItem(this.immediateValue);
+            this.updateValue("");
         };
     }
 
     render() {
         return (<div>
-            <input key='ConsoleInput' type='text' value={this.state.value} onChange={this.onChangeHandler}>
-            </input>
+            <form action='#' onSubmit={this.onSubmitHandler}>
+                <input key='ConsoleInput'
+                       type='text'
+                       value={this.state.value}
+                       onChange={this.onChangeHandler}>
+                </input>
+            </form>
         </div>);
     }
 }
