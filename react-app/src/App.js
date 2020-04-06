@@ -12,6 +12,8 @@ class App extends Component {
     }
 
     render() {
+        console.log('main');
+
         return (
             <div className="App">
             <header className="App-header">
@@ -19,8 +21,8 @@ class App extends Component {
                 <p>
                 Edit <code>src/App.js</code> and save to reload.
                 </p>
-                <HistoryView />
-                <ConsoleInput />
+                <HistoryView key='historyView'/>
+                <ConsoleInput key='consoleInput'/>
             </header>
             </div>
         );

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { setInterface } from './Util.js';
+import { setInterface, zip, range } from './Util.js';
+import HistoryElement from './HistoryElement.js';
 
 class HistoryView extends Component {
 
@@ -16,9 +17,11 @@ class HistoryView extends Component {
     }
 
     render() {
-        return (<div>
-            {this.state.hist.map(elem => <p>{elem}</p>)}
-        </div>);
+        const hist = this.state.hist;
+        const indexes = range(hist.length).map(x => 'historyElement#' + x)
+        const ziped = zip(hist, indexes);
+        const maped = ziped.map(x => <HistoryElement elem={x[0]} key={x[1]} />)
+        return (<div>{maped}</div>);
     }
 }
 
