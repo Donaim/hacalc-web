@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 
-function ConsoleInput() {
-    const [state, setState] = useState('2 + 2');
+class ConsoleInput extends Component {
 
-    console.log('rerendering');
+    constructor() {
+        super();
 
-    function onChangeHandler(e) {
-        setState(e.target.value);
+        this.state = {value: '2 + 2'};
+
+        this.onChangeHandler = (e) => {
+            this.setState({value: e.target.value});
+        };
     }
 
-    return (<div>
-        <input key='ConsoleInput' type='text' value={state} onChange={onChangeHandler}>
-        </input>
-    </div>);
+    render() {
+        console.log('rerendering');
+
+        return (<div>
+            <input key='ConsoleInput' type='text' value={this.state.value} onChange={this.onChangeHandler}>
+            </input>
+        </div>);
+    }
 }
 
 export default ConsoleInput;
