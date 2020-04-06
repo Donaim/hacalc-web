@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import ConsoleInput from './ConsoleInput.js'
@@ -9,11 +9,6 @@ class App extends Component {
     constructor() {
         super();
         this.state = {};
-        this.historyViewRef = createRef();
-
-        this.handleMessage = (m) => {
-            throw 'dont handle messages';
-        };
     }
 
     render() {
@@ -24,8 +19,8 @@ class App extends Component {
                 <p>
                 Edit <code>src/App.js</code> and save to reload.
                 </p>
-                <HistoryView ref={this.historyViewRef}/>
-                <ConsoleInput historyViewRef={this.historyViewRef}/>
+                <HistoryView />
+                <ConsoleInput />
             </header>
             </div>
         );

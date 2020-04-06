@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { setInterface } from './Util.js';
 
 class HistoryView extends Component {
 
@@ -6,19 +7,12 @@ class HistoryView extends Component {
         super();
         this.state = {hist: ['hello you','there']};
 
-        this.inputHandler = (input) => {
+        const addItem = (input) => {
             console.log('got input: ', input);
             this.setState(state => ({hist: [...state.hist, input]}));
-        };
+        }
 
-        this.handleMessage = (m) => {
-            switch (m.type) {
-                case 'addItem':
-                    return this.inputHandler(m.value);
-                default:
-                    throw ('bad message type: ' + m.type)
-            }
-        };
+        setInterface('history:add-item', addItem);
     }
 
     render() {
