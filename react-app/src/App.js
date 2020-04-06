@@ -1,29 +1,35 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import ConsoleInput from './ConsoleInput.js'
 import HistoryView from './HistoryView.js'
 
-function App() {
-  const [hist, setHist] = useState(['hi there', 'how are you doing?']);
+class App extends Component {
 
-  function inputHandler(input) {
-    console.log('got input: ', input);
-    setHist(oldHist => [...oldHist, input]);
-  };
+    constructor() {
+        super();
+        this.state = {hist: ['hello you','there']};
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <HistoryView hist={hist} />
-        <ConsoleInput update={inputHandler}/>
-      </header>
-    </div>
-  );
+        this.inputHandler = (input) => {
+            console.log('got input: ', input);
+            this.setState(state => ({hist: [...state.hist, input]}));
+        };
+    }
+
+    render() {
+        return (
+            <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <p>
+                Edit <code>src/App.js</code> and save to reload.
+                </p>
+                <HistoryView hist={this.state.hist} />
+                <ConsoleInput update={this.inputHandler}/>
+            </header>
+            </div>
+        );
+    }
 }
 
 export default App;
