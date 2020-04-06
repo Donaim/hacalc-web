@@ -10,7 +10,7 @@ export function getInterface(name) {
     if (handler) {
         return handler;
     } else {
-        throw ('wrong interface name "' + name + '"');
+        throw new Error('wrong interface name "' + name + '"');
     }
 }
 
