@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function HistoryView() {
-	const [hist, setHist] = useState(['hi there', 'how are you doing?']);
+function HistoryView({hist}) {
 	return (<div>
 		{hist.map(elem => <p>{elem}</p>)}
 	</div>);
