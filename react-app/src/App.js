@@ -5,7 +5,7 @@ import ConsoleInput from './ConsoleInput.js'
 import HistoryView from './HistoryView.js'
 
 function App() {
-	const [hist, setHist] = useState(['hi there', 'how are you doing?']);
+  const [hist, setHist] = useState(['hi there', 'how are you doing?']);
   return (
     <div className="App">
       <header className="App-header">
@@ -13,7 +13,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <HistoryView hist={hist}/>
+        <HistoryView hist={hist} />
         <ConsoleInput />
       </header>
     </div>
