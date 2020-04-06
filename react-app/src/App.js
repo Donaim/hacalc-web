@@ -6,6 +6,12 @@ import HistoryView from './HistoryView.js'
 
 function App() {
   const [hist, setHist] = useState(['hi there', 'how are you doing?']);
+
+  function inputHandler(input) {
+    console.log('got input: ', input);
+    setHist(oldHist => [...oldHist, input]);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -14,7 +20,7 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <HistoryView hist={hist} />
-        <ConsoleInput />
+        <ConsoleInput update={inputHandler}/>
       </header>
     </div>
   );
