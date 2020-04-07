@@ -1,5 +1,5 @@
 
-// process.chdir('src')
+process.chdir('public');
 __dirname = process.cwd();
 
 const fs = require("fs");
@@ -8,19 +8,17 @@ const url = require("url");
 const path = require("path");
 
 function serve_static(filename, callback) {
-    function callback0(err, data) {
-        if (err) {
-            const fullname = path.join(__dirname, filename);
-            fs.readFile(fullname, null, callback)
-        } else {
-            callback(err, data);
-        }
+    const fullname = path.normalize(path.join(__dirname, filename));
+
+    if (fullname.startsWith(__dirname)) {
+        fs.readFile(fullname, null, callback);
+    } else {
+        callback('"' + fullname + '" is not subdirectory of "' + __dirname + '"', null);
     }
-    fs.readFile(filename, null, callback0);
 }
 
 function serverCallback(request, response) {
-    var pathname = url.parse(request.url).pathname;
+    const pathname = url.parse(request.url).pathname;
     console.log("Request for " + pathname + " received.");
 
     function static_callback(err, data) {
