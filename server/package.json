@@ -1,0 +1,17 @@
+{
+    "name": "hacalc-web-server",
+    "description": "Web server for hacalc",
+    "version": "0.0.1",
+    "private": true,
+    "license": "MIT",
+    "author": "d0naim",
+    "main": "index.js",
+    "engines": {
+        "node": ">=6.9.0"
+    },
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+    }
+}
