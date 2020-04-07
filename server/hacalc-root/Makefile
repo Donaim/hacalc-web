@@ -6,7 +6,7 @@ EXETGT = ./hacalc-exe
 exe: $(EXETGT)
 
 $(EXETGT): build
-	ln -s "$(EXEPATH)" $(EXETGT)
+	ln -sf "$(EXEPATH)" $(EXETGT)
 
 build: $(BUILDTGT)
 
