@@ -1,0 +1,3 @@
+[submodule "server/hacalc-root/hacalc"]
+	path = server/hacalc-root/hacalc
+	url = https://github.com/Donaim/hacalc.git
