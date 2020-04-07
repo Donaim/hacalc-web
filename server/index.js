@@ -11,12 +11,12 @@ function serve_static(filename, callback) {
     function callback0(err, data) {
         if (err) {
             const fullname = path.join(__dirname, filename);
-            fs.readFile(fullname, "utf8", callback)
+            fs.readFile(fullname, null, callback)
         } else {
             callback(err, data);
         }
     }
-    fs.readFile(filename, "utf8", callback0);
+    fs.readFile(filename, null, callback0);
 }
 
 function start_router() {
