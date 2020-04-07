@@ -46,7 +46,8 @@ function serverCallback(request, response) {
     console.log("Request for " + pathname + " received.");
 
     if (pathname.startsWith(calc_prefix)) {
-        const expressionString = pathname.substring(calc_prefix.length);
+        const expressionPart = pathname.substring(calc_prefix.length);
+        const expressionString = decodeURIComponent(expressionPart);
 
         function callback(error, stdout, stderr) {
             if (error) {
