@@ -19,35 +19,30 @@ function serve_static(filename, callback) {
     fs.readFile(filename, null, callback0);
 }
 
-function start_router() {
-    var server = http.createServer(function (request, response) {
-        var pathname = url.parse(request.url).pathname;
-        console.log("Request for " + pathname + " received.");
+function serverCallback(request, response) {
+    var pathname = url.parse(request.url).pathname;
+    console.log("Request for " + pathname + " received.");
 
-        function static_callback(err, data) {
-            if (err) {
-                response.writeHead(404, {"Content-Type": "text/html"});
-                response.write("<p>Page not found</p>");
-                console.error("Unknown route request = \"" + pathname + "\" (" + err + ")");
-            } else {
-                response.writeHead(200, {"Content-Type": "text/html"});
-                response.write(data);
-            }
-            response.end();
+    function static_callback(err, data) {
+        if (err) {
+            response.writeHead(404, {"Content-Type": "text/html"});
+            response.write("<p>Page not found</p>");
+            console.error("Unknown route request = \"" + pathname + "\" (" + err + ")");
+        } else {
+            response.writeHead(200, {"Content-Type": "text/html"});
+            response.write(data);
         }
+        response.end();
+    }
 
-        const realPath = pathname === "/" ? "index.html" : pathname;
-        return serve_static(realPath, static_callback);
-    });
+    const realPath = pathname === "/" ? "index.html" : pathname;
+    return serve_static(realPath, static_callback);
+}
 
-    var port = process.env.PORT || 1337;
+function start_router() {
+    const server = http.createServer(serverCallback);
+    const port = process.env.PORT || 1337;
     server.listen(port);
-
-    // console.log("Listening to server on 1337...");
 }
 
-function start() {
-    start_router();
-}
-
-start();
+start_router();
