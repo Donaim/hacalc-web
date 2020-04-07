@@ -24,15 +24,13 @@ function start_router() {
         var pathname = url.parse(request.url).pathname;
         console.log("Request for " + pathname + " received.");
 
-        response.writeHead(200, {"Content-Type": "text/html"});
-
         function static_callback(err, data) {
             if (err) {
-                // response.writeHead(404, {"Content-Type": "text/html"});
-                // response.write("<p>Page not found</p>");
+                response.writeHead(404, {"Content-Type": "text/html"});
+                response.write("<p>Page not found</p>");
                 console.error("Unknown route request = \"" + pathname + "\" (" + err + ")");
             } else {
-                // response.writeHead(200, {"Content-Type": "text/html"});
+                response.writeHead(200, {"Content-Type": "text/html"});
                 response.write(data);
             }
             response.end();
