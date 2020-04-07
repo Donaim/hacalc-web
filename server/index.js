@@ -7,11 +7,32 @@ const http = require("http");
 const url = require("url");
 const path = require("path");
 
+const readStaticFile =
+    (function () {
+        const static_cache = {};
+        return function(filename, encoding, callback) {
+            const key = [filename, encoding];
+            const existing = static_cache[key];
+
+            if (existing) {
+                const [err, data] = existing;
+                return callback(err, data);
+            }
+
+            function callback0(err, data) {
+                static_cache[key] = [err, data];
+                callback(err, data);
+            }
+
+            fs.readFile(filename, encoding, callback0);
+        }
+    })();
+
 function serve_static(filename, callback) {
     const fullname = path.normalize(path.join(__dirname, filename));
 
     if (fullname.startsWith(__dirname)) {
-        fs.readFile(fullname, null, callback);
+        readStaticFile(fullname, null, callback);
     } else {
         callback('"' + fullname + '" is not subdirectory of "' + __dirname + '"', null);
     }
