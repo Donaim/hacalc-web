@@ -6,6 +6,7 @@ const fs = require("fs");
 const http = require("http");
 const url = require("url");
 const path = require("path");
+const child_process = require("child_process");
 
 const readStaticFile =
     (function () {
@@ -38,24 +39,43 @@ function serve_static(filename, callback) {
     }
 }
 
+const calc_prefix = "/calc/";
+
 function serverCallback(request, response) {
     const pathname = url.parse(request.url).pathname;
     console.log("Request for " + pathname + " received.");
 
-    function static_callback(err, data) {
-        if (err) {
-            response.writeHead(404, {"Content-Type": "text/html"});
-            response.write("<p>Page not found</p>");
-            console.error("Unknown route request = \"" + pathname + "\" (" + err + ")");
-        } else {
-            response.writeHead(200, {"Content-Type": "text/html"});
-            response.write(data);
-        }
-        response.end();
-    }
+    if (pathname.startsWith(calc_prefix)) {
+        const expressionString = pathname.substring(calc_prefix.length);
 
-    const realPath = pathname === "/" ? "index.html" : pathname;
-    return serve_static(realPath, static_callback);
+        function callback(error, stdout, stderr) {
+            if (error) {
+                console.log('bad input:', error, stdout, stderr);
+                response.writeHead(400, {"Content-Type": "text/plain"});
+                response.write("Bad input");
+            } else {
+                response.writeHead(200, {"Content-Type": "text/plain"});
+                response.write(stdout);
+            }
+            response.end();
+        }
+        child_process.execFile('../hacalc-root/run', [expressionString], callback);
+    } else {
+        function static_callback(err, data) {
+            if (err) {
+                response.writeHead(404, {"Content-Type": "text/html"});
+                response.write("<p>Page not found</p>");
+                console.error("Unknown route request = \"" + pathname + "\" (" + err + ")");
+            } else {
+                response.writeHead(200, {"Content-Type": "text/html"});
+                response.write(data);
+            }
+            response.end();
+        }
+
+        const realPath = pathname === "/" ? "index.html" : pathname;
+        return serve_static(realPath, static_callback);
+    }
 }
 
 function start_router() {
