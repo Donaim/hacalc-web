@@ -6,12 +6,16 @@ export function setInterface(name, handler) {
 }
 
 export function getInterface(name) {
-    const handler = globalInterfacesList[name];
-    if (handler) {
-        return handler;
-    } else {
-        throw new Error('wrong interface name "' + name + '"');
-    }
+    var target = undefined;
+    return function(...args) {
+        if (!target) {
+            target = globalInterfacesList[name];
+            if (!target) {
+                throw new Error('wrong interface name "' + name + '"');
+            }
+        }
+        return target(...args);
+    };
 }
 
 export function range(start, stop, step) {
