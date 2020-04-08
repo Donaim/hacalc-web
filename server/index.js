@@ -52,10 +52,10 @@ function serverCallback(request, response) {
         function callback(error, stdout, stderr) {
             if (error) {
                 console.log('bad input:', error, stdout, stderr);
-                response.writeHead(400, {"Content-Type": "text/plain"});
+                response.writeHead(400, {"Content-Type": "text/plain", "Access-Control-Allow-Origin": "*"});
                 response.write("Bad input");
             } else {
-                response.writeHead(200, {"Content-Type": "text/plain"});
+                response.writeHead(200, {"Content-Type": "text/plain", "Access-Control-Allow-Origin": "*"});
                 response.write(stdout);
             }
             response.end();
