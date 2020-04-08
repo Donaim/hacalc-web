@@ -11,7 +11,7 @@ export function getInterface(name) {
         if (!target) {
             target = globalInterfacesList[name];
             if (!target) {
-                throw new Error('wrong interface name "' + name + '"');
+                throw new Error('wrong interface name "' + name + '", existing interfaces: ' + Object.keys(globalInterfacesList));
             }
         }
         return target(...args);
