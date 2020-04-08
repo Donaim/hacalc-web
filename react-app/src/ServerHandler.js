@@ -1,11 +1,11 @@
 
 import { setInterface } from './Util.js';
 
-function serverHandlerSend(request) {
+function serverHandlerSend(request, callback) {
     fetch('http://127.0.0.1:1337/calc/' + request).then(response => {
-       response.text().then(text => {
-           console.log('text: ', text);
-       })
+        response.text().then(text => {
+            callback(text);
+        });
     });
 }
 

@@ -22,12 +22,14 @@ class ConsoleInput extends Component {
             this.updateValue(value);
         };
 
+        this.onResponseHandler = (response) => {
+            historyAddItem(response);
+        }
+
         this.onSubmitHandler = (e) => {
             e.preventDefault();
             console.log('submitting', this.immediateValue);
-            serverHandlerSend(this.immediateValue);
-
-            historyAddItem(this.immediateValue);
+            serverHandlerSend(this.immediateValue, this.onResponseHandler);
             this.updateValue("");
         };
     }
