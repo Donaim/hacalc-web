@@ -10,6 +10,7 @@ class ConsoleInput extends Component {
         this.state = {value: this.immediateValue};
 
         const historyAddItem = getInterface('history:add-item');
+        const serverHandlerSend = getInterface('serverHandler:send');
 
         this.updateValue = (value) => {
             this.immediateValue = value;
@@ -23,7 +24,8 @@ class ConsoleInput extends Component {
 
         this.onSubmitHandler = (e) => {
             e.preventDefault();
-            console.log('submitting', e);
+            console.log('submitting', this.immediateValue);
+            serverHandlerSend(this.immediateValue);
 
             historyAddItem(this.immediateValue);
             this.updateValue("");

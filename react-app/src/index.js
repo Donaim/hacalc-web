@@ -4,6 +4,10 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import { serverHandlerInit } from './ServerHandler.js';
+
+serverHandlerInit();
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
