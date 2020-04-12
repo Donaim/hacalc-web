@@ -4,8 +4,7 @@ import HistoryView from './HistoryView.js'
 
 class Window extends Component {
 
-    horizontalStyle = { float: 'left' };
-    normalStyle = {};
+    styles = { float: 'left' };
 
     constructor(args) {
         super();
@@ -17,9 +16,8 @@ class Window extends Component {
 
     render() {
         console.log('window');
-        console.log('mastyle =', this.style);
 
-        return (<div style={this.style}>
+        return (<div style={this.styles}>
                 <HistoryView ictx={this.ictx} />
                 <ConsoleInput ictx={this.ictx} />
                 </div>
