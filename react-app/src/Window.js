@@ -12,6 +12,7 @@ class Window extends Component {
         this.state = {};
         this.style = args.horizontal ?
             this.horizontalStyle : this.normalStyle;
+        this.ictx = {};
     }
 
     render() {
@@ -19,8 +20,8 @@ class Window extends Component {
         console.log('mastyle =', this.style);
 
         return (<div style={this.style}>
-                <HistoryView />
-                <ConsoleInput />
+                <HistoryView ictx={this.ictx} />
+                <ConsoleInput ictx={this.ictx} />
                 </div>
                );
     }

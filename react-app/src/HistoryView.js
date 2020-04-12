@@ -13,7 +13,7 @@ class HistoryView extends Component {
             this.setState(state => ({hist: [...state.hist, input]}));
         }
 
-        setInterface('history:add-item', addItem);
+        setInterface('history:add-item', addItem, args.ictx);
     }
 
     render() {

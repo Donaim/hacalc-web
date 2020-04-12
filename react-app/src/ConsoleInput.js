@@ -9,8 +9,8 @@ class ConsoleInput extends Component {
         this.immediateValue = '2 + 2';
         this.state = {value: this.immediateValue};
 
-        const historyAddItem = getInterface('history:add-item');
-        const serverHandlerSend = getInterface('serverHandler:send');
+        const historyAddItem = getInterface('history:add-item', args.ictx);
+        const serverHandlerSend = getInterface('serverHandler:send', args.ictx);
 
         this.updateValue = (value) => {
             this.immediateValue = value;
