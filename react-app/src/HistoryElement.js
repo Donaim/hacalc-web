@@ -8,7 +8,10 @@ class HistoryElement extends Component {
 
     render() {
         return (<div>
-                <input readOnly={true} value={this.props.elem} />
+                <input tabIndex={-1}
+                       readOnly={true}
+                       value={this.props.elem}
+                       />
                 </div>);
     }
 }
