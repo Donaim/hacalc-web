@@ -13,14 +13,22 @@ class Window extends Component {
         this.style = args.horizontal ?
             this.horizontalStyle : this.normalStyle;
         this.ictx = stageInterface(args.ictx);
+        this.onClickHandler = (e) => {
+            alert('clicked');
+        };
     }
 
     render() {
         console.log('window');
 
         return (<div style={this.styles}>
-                <HistoryView ictx={this.ictx} />
-                <ConsoleInput ictx={this.ictx} />
+                    <div style={this.styles}>
+                        <HistoryView ictx={this.ictx} />
+                        <ConsoleInput ictx={this.ictx} />
+                    </div>
+                    <div style={this.styles}>
+                        <img src='https://picsum.photos/10/200' onClick={this.onClickHandler} />
+                    </div>
                 </div>
                );
     }

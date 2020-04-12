@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Window from './Window.js'
+import Desktop from './Desktop.js';
 
 class App extends Component {
 
@@ -20,11 +20,7 @@ class App extends Component {
                 <p>
                 Edit <code>src/Window.js</code> and save to reload.
                 </p>
-                <div>
-                <Window />
-                <Window />
-                <Window />
-                </div>
+                <Desktop />
             </header>
             </div>
         );
