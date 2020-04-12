@@ -12,7 +12,7 @@ class HistoryView extends Component {
     dstyle = { maxWidth: '100%',
                height: '100%',
                marginRight: '-100px',
-               paddingRight: '100px',
+               // paddingRight: '100px',
                overflow: 'hidden',
                overflowY: 'auto',
              };
