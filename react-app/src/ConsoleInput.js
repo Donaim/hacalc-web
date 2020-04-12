@@ -9,7 +9,7 @@ class ConsoleInput extends Component {
         this.immediateValue = '2 + 2';
         this.state = {value: this.immediateValue};
 
-        const historyAddItem = getInterface('history:add-item', args.ictx);
+        const historyAddResponse = getInterface('history:add-response', args.ictx);
         const serverHandlerSend = getInterface('serverHandler:send', args.ictx);
 
         this.updateValue = (value) => {
@@ -23,7 +23,7 @@ class ConsoleInput extends Component {
         };
 
         this.onResponseHandler = (response) => {
-            historyAddItem(response);
+            historyAddResponse(response);
         }
 
         this.onSubmitHandler = (e) => {

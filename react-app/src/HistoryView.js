@@ -21,12 +21,11 @@ class HistoryView extends Component {
         super();
         this.state = {hist: ['hello you','there']};
 
-        const addItem = (input) => {
-            console.log('got input: ', input);
-            this.setState(state => ({hist: [...state.hist, input]}));
+        const addItem = (outputs) => {
+            this.setState(state => ({hist: [...state.hist, ...outputs]}));
         }
 
-        setInterface('history:add-item', addItem, args.ictx);
+        setInterface('history:add-response', addItem, args.ictx);
     }
 
     scrollToBottom = () => {

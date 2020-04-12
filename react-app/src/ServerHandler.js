@@ -4,7 +4,16 @@ import { setInterface } from './Util.js';
 function serverHandlerSend(request, callback) {
     fetch('http://127.0.0.1:1337/calc/' + request).then(response => {
         response.text().then(text => {
-            callback(text);
+            const lines = text.split('\n');
+            const maped = lines.map(line => line.trim()).map(line => line.startsWith('->') ? line.substring(2).trim() : '');
+            const filtered = maped.filter(line => line !== '');
+            const decorated = filtered.map(line => ({ text: line, isResponse: true }));
+            if (decorated.length == 0) {
+                decorated.push({ text: request, isResponse: true });
+            }
+            const original = { text: request, isResponse: false };
+            const ret = [original, ...decorated];
+            callback(ret);
         });
     });
 }
