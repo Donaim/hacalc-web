@@ -20,7 +20,11 @@ class App extends Component {
                 <p>
                 Edit <code>src/Window.js</code> and save to reload.
                 </p>
-                <Window />
+                <div>
+                <Window horizontal={true} />
+                <Window horizontal={true} />
+                <Window horizontal={true} />
+                </div>
             </header>
             </div>
         );

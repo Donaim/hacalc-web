@@ -4,19 +4,25 @@ import HistoryView from './HistoryView.js'
 
 class Window extends Component {
 
-    constructor() {
+    horizontalStyle = { float: 'left' };
+    normalStyle = {};
+
+    constructor(args) {
         super();
         this.state = {};
+        this.style = args.horizontal ?
+            this.horizontalStyle : this.normalStyle;
     }
 
     render() {
         console.log('window');
+        console.log('mastyle =', this.style);
 
-        return (<div>
-            <HistoryView key='historyView'/>
-            <ConsoleInput key='consoleInput'/>
-            </div>
-        );
+        return (<div style={this.style}>
+                <HistoryView />
+                <ConsoleInput />
+                </div>
+               );
     }
 }
 
