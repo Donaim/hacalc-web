@@ -4,6 +4,8 @@ import HistoryElement from './HistoryElement.js';
 
 class HistoryView extends Component {
 
+    style = { height: '200px', overflow: 'hidden', overflowY: 'scroll' };
+
     constructor(args) {
         super();
         this.state = {hist: ['hello you','there']};
@@ -21,7 +23,7 @@ class HistoryView extends Component {
         const indexes = range(hist.length).map(x => 'historyElement#' + x)
         const ziped = zip(hist, indexes);
         const maped = ziped.map(x => <HistoryElement elem={x[0]} key={x[1]} />)
-        return (<div>{maped}</div>);
+        return (<nav style={this.style} > {maped} </nav>);
     }
 }
 
