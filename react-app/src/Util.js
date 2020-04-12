@@ -1,27 +1,30 @@
 
-const globalInterfacesList = {};
+const globalInterfacesList = [{}];
 
 export function setInterface(name, handler, mctx) {
     const ctx = mctx || globalInterfacesList;
+    const first = ctx[0];
     console.log('adding', name, ' to interace', mctx, 'that is', ctx);
-    ctx[name] = handler;
+    first[name] = handler;
 }
 
 export function getInterface(name, mctx) {
-    var target = undefined;
-    const ctx = mctx || globalInterfacesList;
+    var ctx = mctx || globalInterfacesList;
     return function(...args) {
-        if (!target) {
-            target = ctx[name];
-            if (!target) {
-                target = globalInterfacesList[name];
-                if (!target) {
-                    throw new Error('wrong interface name "' + name + '", existing interfaces: ' + Object.keys(ctx));
-                }
+        for (var i = 0; i < ctx.length; i++) {
+            const cur = ctx[i];
+            const target = cur[name];
+            if (target) {
+                return target(...args);
             }
         }
-        return target(...args);
+        throw new Error('wrong interface name "' + name + '", existing interfaces: ' + Object.keys(ctx));
     };
+}
+
+export function stageInterface(mctx) {
+    var ctx = mctx || globalInterfacesList;
+    return [{}, ...ctx];
 }
 
 export function range(start, stop, step) {
