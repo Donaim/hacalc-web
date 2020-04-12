@@ -8,7 +8,7 @@ class HistoryElement extends Component {
 
     render() {
         return (<div>
-                <input type='button' value={this.props.elem} />
+                <input readOnly={true} value={this.props.elem} />
                 </div>);
     }
 }
