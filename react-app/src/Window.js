@@ -23,7 +23,7 @@ class Window extends Component {
 
         return (<div style={this.styles}>
                     <div>
-                        <img src='https://picsum.photos/200/50' onClick={this.onClickHandler} width='200px' height='50px' />
+                        <img src='https://picsum.photos/200/50' onClick={this.onClickHandler} width='200px' height='50px' alt='' />
                     </div>
                     <div>
                         <HistoryView ictx={this.ictx} initialState={this.props.initialState}/>

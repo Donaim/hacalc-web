@@ -8,7 +8,7 @@ function serverHandlerSend(request, callback) {
             const maped = lines.map(line => line.trim()).map(line => line.startsWith('->') ? line.substring(2).trim() : '');
             const filtered = maped.filter(line => line !== '');
             const decorated = filtered.map(line => ({ text: line, isResponse: true }));
-            if (decorated.length == 0) {
+            if (decorated.length === 0) {
                 decorated.push({ text: request, isResponse: true });
             }
             const original = { text: request, isResponse: false };

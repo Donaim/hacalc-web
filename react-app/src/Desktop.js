@@ -26,7 +26,6 @@ class Desktop extends Component {
     }
 
     render() {
-        const st = {hist: []};
         return (
                 <div>
                     {this.state.windows}
