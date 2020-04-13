@@ -4,7 +4,7 @@ import HistoryElement from './HistoryElement.js';
 
 class HistoryView extends Component {
 
-    style = { height: '80vh',
+    style = { height: '60vh',
             };
 
     dstyle = { height: '100%',
