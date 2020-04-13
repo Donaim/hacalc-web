@@ -5,7 +5,7 @@ import { stageInterface } from './Util.js';
 
 class Window extends Component {
 
-    styles = { float: 'left' };
+    styles = { float: 'left', margin: '20px', border: '2px solid black' };
 
     constructor(args) {
         super();
@@ -22,12 +22,12 @@ class Window extends Component {
         console.log('window');
 
         return (<div style={this.styles}>
-                    <div style={this.styles}>
+                    <div>
+                        <img src='https://picsum.photos/200/50' onClick={this.onClickHandler} width='200px' height='50px' />
+                    </div>
+                    <div>
                         <HistoryView ictx={this.ictx} />
                         <ConsoleInput ictx={this.ictx} />
-                    </div>
-                    <div style={this.styles}>
-                        <img src='https://picsum.photos/10/200' onClick={this.onClickHandler} />
                     </div>
                 </div>
                );
