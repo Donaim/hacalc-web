@@ -8,7 +8,6 @@ class Window extends Component {
     styles = {
         float: 'left',
         margin: '20px',
-        border: '2px solid black',
         textAlign: 'left',
         height: '60vh',
     };
