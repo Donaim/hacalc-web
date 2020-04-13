@@ -3,10 +3,14 @@ import { getInterface } from './Util.js';
 
 class ConsoleInput extends Component {
 
+    styles = {
+        width: '100%',
+    };
+
     constructor(args) {
         super();
 
-        this.immediateValue = '2 + 2';
+        this.immediateValue = '';
         this.state = {value: this.immediateValue};
 
         const historyAddResponse = getInterface('history:add-response', args.ictx);
@@ -39,6 +43,7 @@ class ConsoleInput extends Component {
             <form action='#' onSubmit={this.onSubmitHandler}>
                 <input key='ConsoleInput'
                        type='text'
+                       style={this.styles}
                        value={this.state.value}
                        onChange={this.onChangeHandler}>
                 </input>
