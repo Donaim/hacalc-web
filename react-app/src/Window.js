@@ -3,6 +3,15 @@ import ConsoleInput from './ConsoleInput.js';
 import HistoryView from './HistoryView.js';
 import { getInterface } from './Util.js';
 
+function makeButton(text, handler) {
+    return <button
+            className="btn btn-primary"
+            tabIndex='-1'
+            onClick={handler}>
+                {text}
+                </button>
+}
+
 class Window extends Component {
 
     styles = {
@@ -39,9 +48,9 @@ class Window extends Component {
 
         return (<div style={this.styles}>
                     <div className="btn-group d-flex" role='group' >
-                        <button className="btn btn-primary">Apple</button>
-                        <button className="btn btn-primary">Samsung</button>
-                        <button className="btn btn-primary">Sony</button>
+                        {makeButton('First', null)}
+                        {makeButton('Second', null)}
+                        {makeButton('Clone', this.onClickHandler)}
                     </div>
                     <div style={this.historyStyles}>
                         <HistoryView ictx={this.ictx}
