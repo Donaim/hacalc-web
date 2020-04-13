@@ -5,7 +5,11 @@ import { getInterface } from './Util.js';
 
 class Window extends Component {
 
-    styles = { float: 'left', margin: '20px', border: '2px solid black', textAlign: 'left' };
+    styles = { float: 'left',
+               margin: '20px',
+               border: '2px solid black',
+               textAlign: 'left',
+             };
 
     constructor(args) {
         super();

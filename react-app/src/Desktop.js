@@ -4,6 +4,9 @@ import { stageInterface, setInterface } from './Util.js';
 
 class Desktop extends Component {
 
+    styles = { display: 'inline-flex',
+             };
+
     constructor(args) {
         super();
         this.state = { windows: [] };
@@ -32,7 +35,7 @@ class Desktop extends Component {
 
     render() {
         return (
-                <div>
+                <div style={this.styles}>
                     {this.state.windows}
                 </div>
         );
