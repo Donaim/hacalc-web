@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ConsoleInput from './ConsoleInput.js';
 import HistoryView from './HistoryView.js';
-import { stageInterface, getInterface } from './Util.js';
+import { getInterface } from './Util.js';
 
 class Window extends Component {
 
@@ -12,7 +12,7 @@ class Window extends Component {
         this.state = {};
         this.style = args.horizontal ?
             this.horizontalStyle : this.normalStyle;
-        this.ictx = stageInterface(args.ictx);
+        this.ictx = args.ictx;
 
         const addWindow = getInterface('desktop:add-window', this.ictx);
 

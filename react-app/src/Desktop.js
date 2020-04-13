@@ -7,7 +7,7 @@ class Desktop extends Component {
     constructor(args) {
         super();
         this.state = { windows: [] };
-        this.ictx = stageInterface(args.ictx);
+        this.ictx = args.ictx;
 
         this.addWindow = (windowInitialState) => {
             console.log('adding new window with state: ', windowInitialState);
@@ -15,7 +15,8 @@ class Desktop extends Component {
             function update(state) {
                 const count = state.windows.length;
                 const key = 'DesktopWindow#' + count;
-                const window = <Window key={key} initialState={windowInitialState} ictx={this.ictx}/>
+                const ictx = stageInterface(this.ictx);
+                const window = <Window key={key} initialState={windowInitialState} ictx={ictx}/>
                 const newWindows = [...state.windows, window];
                 return { windows: newWindows };
             }
