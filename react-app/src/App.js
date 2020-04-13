@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Desktop from './Desktop.js';
 
@@ -14,7 +13,7 @@ class App extends Component {
         console.log('main');
 
         return (
-            <div className="App">
+            <div>
             <header className="App-header">
                 <p>
                 Edit <code>src/Window.js</code> and save to reload.
