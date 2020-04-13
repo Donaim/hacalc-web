@@ -31,8 +31,10 @@ class Window extends Component {
         console.log('window');
 
         return (<div style={this.styles}>
-                    <div>
-                        <img src='https://picsum.photos/200/50' onClick={this.onClickHandler} width='200px' height='50px' alt='' />
+                    <div className="btn-group d-flex" role='group' >
+                        <button className="btn btn-primary">Apple</button>
+                        <button className="btn btn-primary">Samsung</button>
+                        <button className="btn btn-primary">Sony</button>
                     </div>
                     <div>
                         <HistoryView ictx={this.ictx} 
