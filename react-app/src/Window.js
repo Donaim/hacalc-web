@@ -15,16 +15,12 @@ class Window extends Component {
         this.ictx = args.ictx;
 
         const addWindow = getInterface('desktop:add-window', this.ictx);
+        const getHistState = getInterface('history:get-state', this.ictx);
 
         this.onClickHandler = (e) => {
-            const histState = this.getHistState();
+            const histState = getHistState();
             addWindow(histState);
         };
-
-        this.getHistState = undefined;
-        this.getHistStateCallback = (callback) => {
-            this.getHistState = callback;
-        }
     }
 
     render() {
