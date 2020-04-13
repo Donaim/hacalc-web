@@ -4,14 +4,6 @@ import HistoryElement from './HistoryElement.js';
 
 class HistoryView extends Component {
 
-    style = { height: '60vh',
-            };
-
-    dstyle = { height: '100%',
-               overflow: 'hidden',
-               overflowY: 'auto',
-             };
-
     constructor(args) {
         super();
         this.state = args.initialState || {hist: ['hello you','there']};
@@ -40,12 +32,10 @@ class HistoryView extends Component {
         const indexes = range(hist.length).map(x => this.props.key + 'historyElement#' + x)
         const ziped = zip(hist, indexes);
         const maped = ziped.map(x => <HistoryElement elem={x[0]} key={x[1]} />)
-        return (<div style={this.style}>
-                <div style={this.dstyle} >
+        return (<div>
                     {maped}
                 <div style={{ float:"left", clear: "both" }}
                      ref={(el) => { this.messagesEnd = el; }}>
-                </div>
                 </div>
                 </div>);
     }

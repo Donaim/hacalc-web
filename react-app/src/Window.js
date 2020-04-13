@@ -5,11 +5,19 @@ import { getInterface } from './Util.js';
 
 class Window extends Component {
 
-    styles = { float: 'left',
-               margin: '20px',
-               border: '2px solid black',
-               textAlign: 'left',
-             };
+    styles = {
+        float: 'left',
+        margin: '20px',
+        border: '2px solid black',
+        textAlign: 'left',
+        height: '60vh',
+    };
+
+    historyStyles = {
+        height: '100%',
+        overflow: 'hidden',
+        overflowY: 'auto',
+    };
 
     constructor(args) {
         super();
@@ -36,8 +44,8 @@ class Window extends Component {
                         <button className="btn btn-primary">Samsung</button>
                         <button className="btn btn-primary">Sony</button>
                     </div>
-                    <div>
-                        <HistoryView ictx={this.ictx} 
+                    <div style={this.historyStyles}>
+                        <HistoryView ictx={this.ictx}
                                      initialState={this.props.initialState}
                                      getStateCallback={this.getHistStateCallback}/>
                         <ConsoleInput ictx={this.ictx} />
