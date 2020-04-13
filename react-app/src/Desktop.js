@@ -6,18 +6,30 @@ class Desktop extends Component {
 
     constructor(args) {
         super();
-        this.state = { windows: [<Window />, <Window />],
-                     };
+        this.state = { windows: [] };
         this.ictx = stageInterface(args.ictx);
+
+        this.addWindow = (windowInitialState) => {
+            function update(state) {
+                const count = state.windows.length;
+                const key = 'DesktopWindow#' + count;
+                const window = <Window key={key} initialState={windowInitialState}/>
+                const newWindows = [...state.windows, window];
+                return { windows: newWindows };
+            }
+            this.setState(update);
+        };
+    }
+
+    componentDidMount() {
+        this.addWindow(null);
     }
 
     render() {
         const st = {hist: []};
         return (
                 <div>
-                <Window initialState={st}/>
-                <Window />
-                <Window />
+                    {this.state.windows}
                 </div>
         );
     }
