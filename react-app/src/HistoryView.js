@@ -4,15 +4,10 @@ import HistoryElement from './HistoryElement.js';
 
 class HistoryView extends Component {
 
-    style = { height: '200px',
-              maxWidth: '100%',
-              overflow: 'hidden',
+    style = { height: '80vh',
             };
 
-    dstyle = { maxWidth: '100%',
-               height: '100%',
-               marginRight: '-100px',
-               paddingRight: '100px',
+    dstyle = { height: '100%',
                overflow: 'hidden',
                overflowY: 'auto',
              };
