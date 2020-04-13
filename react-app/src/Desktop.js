@@ -12,9 +12,10 @@ class Desktop extends Component {
     }
 
     render() {
+        const st = {hist: []};
         return (
                 <div>
-                <Window />
+                <Window initialState={st}/>
                 <Window />
                 <Window />
                 </div>

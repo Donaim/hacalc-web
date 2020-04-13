@@ -19,7 +19,7 @@ class HistoryView extends Component {
 
     constructor(args) {
         super();
-        this.state = {hist: ['hello you','there']};
+        this.state = args.initialState || {hist: ['hello you','there']};
 
         const addItem = (outputs) => {
             this.setState(state => ({hist: [...state.hist, ...outputs]}));

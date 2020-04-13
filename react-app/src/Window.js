@@ -26,7 +26,7 @@ class Window extends Component {
                         <img src='https://picsum.photos/200/50' onClick={this.onClickHandler} width='200px' height='50px' />
                     </div>
                     <div>
-                        <HistoryView ictx={this.ictx} />
+                        <HistoryView ictx={this.ictx} initialState={this.props.initialState}/>
                         <ConsoleInput ictx={this.ictx} />
                     </div>
                 </div>
