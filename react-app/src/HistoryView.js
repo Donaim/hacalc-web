@@ -29,11 +29,15 @@ class HistoryView extends Component {
         setInterface('history:get-state', () => this.state, args.ictx);
     }
 
-    scrollToBottom = () => {
-        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    scrollToBottom = (smooth) => {
+        const beh = smooth ? "smooth" : "auto";
+        this.messagesEnd.scrollIntoView({ behavior: beh });
     }
     componentDidUpdate() {
-        this.scrollToBottom();
+        this.scrollToBottom(true);
+    }
+    componentDidMount() {
+        this.scrollToBottom(false);
     }
 
     render() {
