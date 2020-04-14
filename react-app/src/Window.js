@@ -49,8 +49,8 @@ class Window extends Component {
 
         return (<div style={this.styles}>
                     <div className="btn-group d-flex" role='group' >
-                        {makeButton('First', null)}
-                        {makeButton('Second', null)}
+                        {makeButton('Close', null)}
+                        {makeButton('Internals', null)}
                         {makeButton('Clone', this.onClickHandler)}
                     </div>
                     <div style={this.historyStyles}>

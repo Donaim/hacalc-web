@@ -11,6 +11,7 @@ class HistoryElement extends Component {
         this.text = isString ? elem : elem.text;
         this.styles = isResponse ? { backgroundColor: '#61dafb', border: '1px solid #61dafb' } : { backgroundColor: 'white' } ;
         this.styles.width = '100%';
+        this.styles.display = elem.isInternal? 'none' : 'auto';
     }
 
     render() {
