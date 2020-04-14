@@ -9,10 +9,10 @@
 
 ----------------- Tag operators by precedence
 
-+ -> p0 o+
-- -> p0 o-
-* -> p1 o*
-/ -> p1 o/
++ -> $$p0 o+
+- -> $$p0 o-
+* -> $$p1 o*
+/ -> $$p1 o/
 
 ----------------- Make happy little trees
 
@@ -21,11 +21,11 @@ x . y {ws} z -> x . (y {ws} z)
 a b {bs}  %    {xs}   -> (a b {bs})  %      {xs}
   {xs}    %  a {bs} b ->   ({xs})    %   (a {bs} b)
 
-a b {bs}  (p0 f)    {xs}   -> (a b {bs})  (p0 f)    {xs}
-  {xs}    (p0 f)  {bs} a b ->    {xs}     (p0 f)  ({bs} a b)
+a b {bs}  ($$p0 f)    {xs}   -> (a b {bs})  ($$p0 f)    {xs}
+  {xs}    ($$p0 f)  {bs} a b ->    {xs}     ($$p0 f)  ({bs} a b)
 
-a b {bs}  (p1 f)    {xs}   -> (a b {bs})  (p1 f)      {xs}
-  {xs}    (p1 f)  a {bs} b ->    {xs}     (p1 f)   (a {bs} b)
+a b {bs}  ($$p1 f)    {xs}   -> (a b {bs})  ($$p1 f)      {xs}
+  {xs}    ($$p1 f)  a {bs} b ->    {xs}     ($$p1 f)   (a {bs} b)
 
   {xs}    ^  a {bs} b ->   pow ({xs})     (a {bs} b)
 a b {bs}  ^    {xs}   ->   pow (a b {bs}) ({xs})
