@@ -7,13 +7,14 @@ class HistoryView extends Component {
     constructor(args) {
         super();
         this.state = args.initialState || {hist: []};
+        this.ictx = args.ictx;
 
         const addItem = (outputs) => {
             this.setState(state => ({hist: [...state.hist, ...outputs]}));
         }
 
-        setInterface('history:add-response', addItem, args.ictx);
-        setInterface('history:get-state', () => this.state, args.ictx);
+        setInterface('history:add-response', addItem, this.ictx);
+        setInterface('history:get-state', () => this.state, this.ictx);
     }
 
     scrollToBottom = (smooth) => {
@@ -31,7 +32,7 @@ class HistoryView extends Component {
         const hist = this.state.hist;
         const indexes = range(hist.length).map(x => this.props.key + 'historyElement#' + x)
         const ziped = zip(hist, indexes);
-        const maped = ziped.map(x => <HistoryElement elem={x[0]} key={x[1]} />)
+        const maped = ziped.map(x => <HistoryElement ictx={this.ictx} elem={x[0]} key={x[1]} />)
         return (<div>
                     {maped}
                 <div style={{ float:"left", clear: "both" }}

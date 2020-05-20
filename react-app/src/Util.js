@@ -26,7 +26,7 @@ export function getInterface(name, mctx) {
     const ctx = mctx || globalInterfacesList;
     var target = undefined;
     return function(...args) {
-        if (target == undefined) {
+        if (target === undefined) {
             for (var i = 0; i < ctx.length; i++) {
                 const cur = ctx[i];
                 const found = cur[name];

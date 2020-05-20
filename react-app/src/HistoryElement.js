@@ -23,8 +23,8 @@ class HistoryElement extends Component {
         };
 
         this.setVisibility = (shouldHide) => {
-            console.log("set visib"); // DEBUG
             if (this.isInternal) {
+                console.log("set visib"); // DEBUG
                 this.setState({ hide: shouldHide });
             }
         };
