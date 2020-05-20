@@ -4,15 +4,29 @@ const globalInterfacesList = [{}];
 export function setInterface(name, handler, mctx) {
     const ctx = mctx || globalInterfacesList;
     const first = ctx[0];
-    console.log('setting', name, ' to interace', mctx, 'that is', ctx);
+    console.log('setting', name, 'to interace', mctx, 'that is', ctx);
     first[name] = handler;
 }
 
-export function appendInterface(name, handler, mctx) {
+export function subscribeInterface(name, handler, mctx) {
     const ctx = mctx || globalInterfacesList;
     const first = ctx[0];
     const old = first[name];
-    console.log('appending', name, ' to interace', mctx, 'that is', ctx);
+    console.log('substribing', name, 'to interace', mctx, 'that is', ctx);
+    if (typeof old == 'function') {
+        first[name] = [old, handler];
+    } else if (old) {
+        old.push(handler);
+    } else {
+        first[name] = handler;
+    }
+}
+
+export function unsubscribeInterface(name, handler, mctx) {
+    const ctx = mctx || globalInterfacesList;
+    const first = ctx[0];
+    const old = first[name];
+    console.log('unsubscribing', name, ' to interace', mctx, 'that is', ctx);
     if (typeof old == 'function') {
         first[name] = [old, handler];
     } else if (old) {

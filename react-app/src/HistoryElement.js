@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { appendInterface } from './Util.js';
+import { subscribeInterface, unsubscribeInterface } from './Util.js';
 
 class HistoryElement extends Component {
 
@@ -7,6 +7,8 @@ class HistoryElement extends Component {
         super();
 
         this.ictx = args.ictx;
+        this.mounted = false;
+
         const elem = args.elem;
         const isString = typeof elem == 'string';
         const isResponse = isString ? false : elem.isResponse;
@@ -26,14 +28,27 @@ class HistoryElement extends Component {
                      />);
 
         this.setVisibility = (shouldHide) => {
-            if (this.isInternal) {
-                console.log("my visib:", this.state.hide); // DEBUG
-                // this.setState({ hide: shouldHide });
-                this.setState((state) => ({ hide: !state.hide }));
+            if (this.mounted) {
+                if (this.isInternal) {
+                    console.log("my visib:", this.state.hide); // DEBUG
+                    // this.setState({ hide: shouldHide });
+                    this.setState((state) => ({ hide: !state.hide }));
+                }
+            } else {
+                this.state.hide = shouldHide;
             }
         };
 
-        appendInterface('history-elements:update', this.setVisibility, this.ictx);
+        subscribeInterface('history-elements:update', this.setVisibility, this.ictx);
+    }
+
+    componentDidMount() {
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+        unsubscribeInterface('history-elements:update', this.setVisibility, this.ictx);
     }
 
     render() {
