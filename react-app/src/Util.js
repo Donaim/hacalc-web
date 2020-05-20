@@ -4,21 +4,48 @@ const globalInterfacesList = [{}];
 export function setInterface(name, handler, mctx) {
     const ctx = mctx || globalInterfacesList;
     const first = ctx[0];
-    console.log('adding', name, ' to interace', mctx, 'that is', ctx);
+    console.log('setting', name, ' to interace', mctx, 'that is', ctx);
     first[name] = handler;
 }
 
+export function appendInterface(name, handler, mctx) {
+    const ctx = mctx || globalInterfacesList;
+    const first = ctx[0];
+    const old = first[name];
+    console.log('appending', name, ' to interace', mctx, 'that is', ctx);
+    if (typeof old == 'function') {
+        first[name] = [old, handler];
+    } else if (old) {
+        old.push(handler);
+    } else {
+        first[name] = handler;
+    }
+}
+
 export function getInterface(name, mctx) {
-    var ctx = mctx || globalInterfacesList;
+    const ctx = mctx || globalInterfacesList;
+    var target = undefined;
     return function(...args) {
-        for (var i = 0; i < ctx.length; i++) {
-            const cur = ctx[i];
-            const target = cur[name];
-            if (target) {
-                return target(...args);
+        if (target == undefined) {
+            for (var i = 0; i < ctx.length; i++) {
+                const cur = ctx[i];
+                const found = cur[name];
+                if (found) {
+                    if (typeof found == 'function') {
+                        target = found;
+                    } else { // must be an array
+                        target = function (...args) {
+                            for (var i = 0; i < found.length; i++) {
+                                found[i](...args);
+                            }
+                        }
+                    }
+                    return target(...args);
+                }
             }
+            throw new Error('wrong interface name "' + name + '", existing interfaces: ' + Object.keys(ctx));
         }
-        throw new Error('wrong interface name "' + name + '", existing interfaces: ' + Object.keys(ctx));
+        return target(...args);
     };
 }
 

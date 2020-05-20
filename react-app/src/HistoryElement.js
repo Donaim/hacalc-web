@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { appendInterface } from './Util.js';
 
 class HistoryElement extends Component {
 
     constructor(args) {
         super();
 
+        this.ictx = args.ictx;
         const elem = args.elem;
         const isString = typeof elem == 'string';
         const isResponse = isString ? false : elem.isResponse;
@@ -21,10 +23,13 @@ class HistoryElement extends Component {
         };
 
         this.setVisibility = (shouldHide) => {
+            console.log("set visib"); // DEBUG
             if (this.isInternal) {
                 this.setState({ hide: shouldHide });
             }
         };
+
+        appendInterface('history-elements:update', this.setVisibility, this.ictx);
     }
 
     render() {

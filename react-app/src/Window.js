@@ -37,10 +37,16 @@ class Window extends Component {
 
         const addWindow = getInterface('desktop:add-window', this.ictx);
         const getHistState = getInterface('history:get-state', this.ictx);
+        const updateHists = getInterface('history-elements:update', this.ictx);
 
-        this.onClickHandler = (e) => {
+        this.onCloneClick = (e) => {
             const histState = getHistState();
             addWindow(histState);
+        };
+
+        this.onInternalsClick = (e) => {
+            console.log("CLICKED"); // DEBUG
+            updateHists(false); // DEBUG
         };
     }
 
@@ -50,8 +56,8 @@ class Window extends Component {
         return (<div style={this.styles}>
                     <div className="btn-group d-flex" role='group' >
                         {makeButton('Close', null)}
-                        {makeButton('Internals', null)}
-                        {makeButton('Clone', this.onClickHandler)}
+                        {makeButton('Internals', this.onInternalsClick)}
+                        {makeButton('Clone', this.onCloneClick)}
                     </div>
                     <div style={this.historyStyles}>
                         <HistoryView ictx={this.ictx}
