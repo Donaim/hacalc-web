@@ -19,7 +19,7 @@ class HistoryElement extends Component {
         this.style.width = '100%';
 
         this.state = {
-            hide: false,
+            hide: true,
         };
         this.elem = (<input tabIndex={-1}
                             readOnly={true}
