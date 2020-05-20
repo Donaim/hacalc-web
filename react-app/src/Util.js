@@ -1,4 +1,16 @@
 
+function removeItemAll(arr, value) {
+    var i = 0;
+    while (i < arr.length) {
+        if(arr[i] === value) {
+            arr.splice(i, 1);
+        } else {
+            ++i;
+        }
+    }
+    return arr;
+}
+
 const globalInterfacesList = [{}];
 
 export function setInterface(name, handler, mctx) {
@@ -28,12 +40,11 @@ export function unsubscribeInterface(name, handler, mctx) {
     const old = first[name];
     console.log('unsubscribing', name, ' to interace', mctx, 'that is', ctx);
     if (typeof old == 'function') {
-        first[name] = [old, handler];
+        first[name] = undefined;
     } else if (old) {
-        old.push(handler);
-    } else {
-        first[name] = handler;
+        removeItemAll(old, handler);
     }
+    // else: not subscribed. That's fine
 }
 
 export function getInterface(name, mctx) {
