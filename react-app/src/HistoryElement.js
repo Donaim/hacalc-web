@@ -13,19 +13,23 @@ class HistoryElement extends Component {
         this.isInternal = elem.isInternal;
         this.text = isString ? elem : elem.text;
 
-        const baseStyles = isResponse ? { backgroundColor: '#61dafb', border: '1px solid #61dafb' } : { backgroundColor: 'white' };
-        baseStyles.width = '100%';
-        this.stylesVisible = { ... baseStyles, display: 'auto'};
-        this.stylesNotVisible = { ... baseStyles, display: 'none'};
+        this.style = isResponse ? { backgroundColor: '#61dafb', border: '1px solid #61dafb' } : { backgroundColor: 'white' };
+        this.style.width = '100%';
 
         this.state = {
-            hide: true,
+            hide: false,
         };
+        this.elem = (<input tabIndex={-1}
+                            readOnly={true}
+                            value={this.text}
+                            style={this.style}
+                     />);
 
         this.setVisibility = (shouldHide) => {
             if (this.isInternal) {
-                console.log("set visib"); // DEBUG
-                this.setState({ hide: shouldHide });
+                console.log("my visib:", this.state.hide); // DEBUG
+                // this.setState({ hide: shouldHide });
+                this.setState((state) => ({ hide: !state.hide }));
             }
         };
 
@@ -33,17 +37,15 @@ class HistoryElement extends Component {
     }
 
     render() {
-        const st = (this.isInternal && this.state.hide)
-            ? this.stylesNotVisible
-            : this.stylesVisible;
+        var elem;
 
-        return (<div>
-                <input tabIndex={-1}
-                       readOnly={true}
-                       value={this.text}
-                       style={st}
-                       />
-                </div>);
+        if (this.isInternal && this.state.hide) {
+            elem = null;
+        } else {
+            elem = this.elem;
+        }
+
+        return (<div> {elem} </div>);
     }
 }
 

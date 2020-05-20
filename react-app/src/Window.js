@@ -46,7 +46,7 @@ class Window extends Component {
 
         this.onInternalsClick = (e) => {
             console.log("CLICKED"); // DEBUG
-            updateHists(false); // DEBUG
+            updateHists(true); // DEBUG
         };
     }
 
