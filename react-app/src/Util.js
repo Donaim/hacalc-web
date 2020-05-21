@@ -60,9 +60,11 @@ export function getInterface(name, mctx) {
                         target = found;
                     } else { // must be an array
                         target = function (...args) {
+                            const ret = Array(found.length);
                             for (var i = 0; i < found.length; i++) {
-                                found[i](...args);
+                                ret[i] = found[i](...args);
                             }
+                            return ret;
                         }
                     }
                     return target(...args);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getInterface } from './Util.js';
+import { subscribeInterface, getInterface } from './Util.js';
 
 class InternalsButton extends Component {
 
@@ -7,7 +7,17 @@ class InternalsButton extends Component {
         super();
 
         this.ictx = args.ictx;
-        this.state = args.initialState || { text: 'Internals' };
+        this.id = args.id;
+
+        this.serialize = () => {
+            return [this.id, this.state];
+        };
+
+        const deserialize = getInterface('deserialize-state', this.ictx);
+        this.state = deserialize(this.id) || { text: 'Internals' };
+        subscribeInterface('serialize-state',
+                           this.serialize,
+                           this.ictx);
 
         this.cycleState = (state) => {
             switch (state.text) {
@@ -17,6 +27,7 @@ class InternalsButton extends Component {
             }
         };
 
+        subscribeInterface('history-elements:update', (...args) => null, this.ictx);
         const updateHists = getInterface('history-elements:update', this.ictx);
         this.onClick = (e) => {
             this.setState((state) => {

@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
-import { setInterface, zip, range } from './Util.js';
+import { setInterface, getInterface, subscribeInterface, zip, range } from './Util.js';
 import HistoryElement from './HistoryElement.js';
 
 class HistoryView extends Component {
 
     constructor(args) {
         super();
-        this.state = args.initialState || { hist: [] };
         this.ictx = args.ictx;
+        this.id = args.id;
+
+        this.serialize = () => {
+            return [this.id, this.state];
+        };
+
+        const deserialize = getInterface('deserialize-state', this.ictx);
+        this.state = deserialize(this.id) || { hist: [] };
+        subscribeInterface('serialize-state',
+                           this.serialize,
+                           this.ictx);
 
         const addItem = (outputs) => {
             this.setState(state => ({hist: [...state.hist, ...outputs]}));
         }
-
         setInterface('history:add-response', addItem, this.ictx);
-        setInterface('history:get-state', () => this.state, this.ictx);
     }
 
     scrollToBottom = (smooth) => {

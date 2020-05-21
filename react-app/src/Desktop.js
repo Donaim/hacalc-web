@@ -12,14 +12,14 @@ class Desktop extends Component {
         this.state = { windows: [] };
         this.ictx = args.ictx;
 
-        this.addWindow = (windowInitialState) => {
-            console.log('adding new window with state: ', windowInitialState);
+        this.addWindow = (windowSerializedState) => {
+            console.log('adding new window with state: ', windowSerializedState);
 
             function update(state) {
                 const count = state.windows.length;
                 const key = 'DesktopWindow#' + count;
                 const ictx = stageInterface(this.ictx);
-                const window = <Window key={key} initialState={windowInitialState} ictx={ictx}/>
+                const window = <Window key={key} serializedState={windowSerializedState} ictx={ictx}/>
                 const newWindows = [...state.windows, window];
                 return { windows: newWindows };
             }
