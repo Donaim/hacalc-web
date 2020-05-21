@@ -10,6 +10,22 @@ class HistoryElement extends Component {
         this.id = args.id;
         this.mounted = false;
 
+        const elem = args.elem;
+        const isString = typeof elem == 'string';
+        const isResponse = isString ? false : elem.isResponse;
+        this.isInternal = elem.isInternal;
+        this.isMinimal = elem.isFinal || !elem.isResponse;
+        this.text = isString ? elem : elem.text;
+
+        this.style = isResponse ? { backgroundColor: '#61dafb', border: '1px solid #61dafb' } : { backgroundColor: 'white' };
+        this.style.width = '100%';
+
+        this.elem = (<input tabIndex={-1}
+                            readOnly={true}
+                            value={this.text}
+                            style={this.style}
+                     />);
+
         this.serialize = () => {
             return [this.id, this.state];
         };
@@ -32,7 +48,7 @@ class HistoryElement extends Component {
             // console.log("my visib:", this.state.hide); // DEBUG
             switch (mode) {
             case 'Minimal':
-                return this.wrapSetState((state) => ({ hide: true }));
+                return this.wrapSetState((state) => ({ hide: !this.isMinimal }));
             case 'Internals':
                 return this.wrapSetState((state) => ({ hide: this.isInternal }));
             case 'Internals*':
@@ -43,23 +59,10 @@ class HistoryElement extends Component {
 
         const getVisibilityMode = getInterface('get-visibility-mode', this.ictx);
         if (!this.state) {
-            this.setVisibility(getVisibilityMode());
+            const mode = getVisibilityMode();
+            console.log('setting visib to:', mode);
+            this.setVisibility(mode);
         }
-
-        const elem = args.elem;
-        const isString = typeof elem == 'string';
-        const isResponse = isString ? false : elem.isResponse;
-        this.isInternal = elem.isInternal;
-        this.text = isString ? elem : elem.text;
-
-        this.style = isResponse ? { backgroundColor: '#61dafb', border: '1px solid #61dafb' } : { backgroundColor: 'white' };
-        this.style.width = '100%';
-
-        this.elem = (<input tabIndex={-1}
-                            readOnly={true}
-                            value={this.text}
-                            style={this.style}
-                     />);
     }
 
     componentDidMount() {
