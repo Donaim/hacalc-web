@@ -11,36 +11,38 @@ function removeItemAll(arr, value) {
     return arr;
 }
 
-const globalInterfacesList = [{}];
+const interfaceRoot = {
+    parent: null,
+    children: [],
+    id: 0,
+    methods: {},
+};
 
 export function setInterface(name, handler, mctx) {
-    const ctx = mctx || globalInterfacesList;
-    const first = ctx[0];
+    const ctx = mctx || interfaceRoot;
     console.log('setting', name, 'to interace', mctx, 'that is', ctx);
-    first[name] = handler;
+    ctx.methods[name] = handler;
 }
 
 export function subscribeInterface(name, handler, mctx) {
-    const ctx = mctx || globalInterfacesList;
-    const first = ctx[0];
-    const old = first[name];
+    const ctx = mctx || interfaceRoot;
+    const old = ctx.methods[name];
     console.log('substribing', name, 'to interace', mctx, 'that is', ctx);
     if (typeof old == 'function') {
-        first[name] = [old, handler];
+        ctx.methods[name] = [old, handler];
     } else if (old) {
         old.push(handler);
     } else {
-        first[name] = [handler];
+        ctx.methods[name] = [handler];
     }
 }
 
 export function unsubscribeInterface(name, handler, mctx) {
-    const ctx = mctx || globalInterfacesList;
-    const first = ctx[0];
-    const old = first[name];
+    const ctx = mctx || interfaceRoot;
+    const old = ctx.methods[name];
     console.log('unsubscribing', name, ' to interace', mctx, 'that is', ctx);
     if (typeof old == 'function') {
-        first[name] = undefined;
+        ctx.methods[name] = undefined;
     } else if (old) {
         removeItemAll(old, handler);
     }
@@ -48,13 +50,12 @@ export function unsubscribeInterface(name, handler, mctx) {
 }
 
 export function getInterface(name, mctx) {
-    const ctx = mctx || globalInterfacesList;
+    var ctx = mctx || interfaceRoot;
     var target = undefined;
     return function(...args) {
         if (target === undefined) {
-            for (var i = 0; i < ctx.length; i++) {
-                const cur = ctx[i];
-                const found = cur[name];
+            for (var cur = ctx; cur; cur = cur.parent) {
+                const found = cur.methods[name];
                 if (found) {
                     if (typeof found == 'function') {
                         target = found;
@@ -77,8 +78,13 @@ export function getInterface(name, mctx) {
 }
 
 export function stageInterface(mctx) {
-    var ctx = mctx || globalInterfacesList;
-    return [{}, ...ctx];
+    var ctx = mctx || interfaceRoot;
+    return {
+        parent: ctx,
+        children: [],
+        id: 0,
+        methods: {},
+    };
 }
 
 export function range(start, stop, step) {
