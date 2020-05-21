@@ -5,6 +5,7 @@ class ConsoleInput extends Component {
 
     styles = {
         width: '100%',
+        paddingLeft: '5px',
     };
 
     constructor(args) {

@@ -19,6 +19,7 @@ class HistoryElement extends Component {
 
         this.style = isResponse ? { backgroundColor: '#61dafb', border: '1px solid #61dafb' } : { backgroundColor: 'white' };
         this.style.width = '100%';
+        this.style.paddingLeft = '5px';
 
         this.elem = (<input tabIndex={-1}
                             readOnly={true}
