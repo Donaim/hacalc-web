@@ -54,7 +54,7 @@ class HistoryElement extends Component {
             case 'Internals*':
                 return this.wrapSetState((state) => ({ hide: false }));
             default:
-                throw new Error("Unknonw visibility mode: " + mode);
+                throw new Error("Unknown visibility mode: " + mode);
             }
         };
         subscribeInterface('history-elements:update', this.setVisibility, this.ictx);

@@ -60,7 +60,7 @@ class Window extends Component {
             addWindow(serialized);
         };
         this.onCloseClick = (e) => {
-            removeWindow(this.id);
+            removeWindow();
         };
     }
 
