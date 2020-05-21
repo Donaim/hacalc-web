@@ -36,6 +36,7 @@ class Window extends Component {
             this.horizontalStyle : this.normalStyle;
         this.ictx = args.ictx;
         this.serializedState = args.serializedState || {};
+        this.id = args.id;
 
         this.deserialize = (ctx) => {
             const id = interfaceGetRelativeId(this.ictx, ctx);
@@ -45,6 +46,7 @@ class Window extends Component {
         setInterface('deserialize-state', this.deserialize, this.ictx);
 
         const addWindow = getInterface('desktop:add-window', this.ictx);
+        const removeWindow = getInterface('desktop:remove-window', this.ictx);
         const serialize = getInterfaces('serialize-state', this.ictx);
 
         this.onCloneClick = (e) => {
@@ -57,6 +59,9 @@ class Window extends Component {
             }
             addWindow(serialized);
         };
+        this.onCloseClick = (e) => {
+            removeWindow(this.id);
+        };
     }
 
     render() {
@@ -64,7 +69,7 @@ class Window extends Component {
 
         return (<div style={this.styles}>
                     <div className="btn-group d-flex" role='group' >
-                        {makeButton('Close', null)}
+                        {makeButton('Close', this.onCloseClick)}
                         <InternalsButton ictx={stageInterface(this.ictx)} id={this.id + ':InternalsButton'} />
                         {makeButton('Clone', this.onCloneClick)}
                     </div>

@@ -8,6 +8,7 @@ class HistoryView extends Component {
         super();
         this.ictx = args.ictx;
         this.id = args.id;
+        this.loadId = args.loadId;
 
         this.serialize = () => {
             return this.state;
