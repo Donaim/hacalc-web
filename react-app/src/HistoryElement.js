@@ -27,11 +27,11 @@ class HistoryElement extends Component {
                      />);
 
         this.serialize = () => {
-            return [this.id, this.state];
+            return this.state;
         };
 
         const deserialize = getInterface('deserialize-state', this.ictx);
-        this.state = deserialize(this.id);
+        this.state = deserialize();
         subscribeInterface('serialize-state',
                            this.serialize,
                            this.ictx);
@@ -60,7 +60,7 @@ class HistoryElement extends Component {
         const getVisibilityMode = getInterface('get-visibility-mode', this.ictx);
         if (!this.state) {
             const mode = getVisibilityMode();
-            console.log('setting visib to:', mode);
+            // console.log('setting visib to:', mode);
             this.setVisibility(mode);
         }
     }

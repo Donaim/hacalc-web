@@ -27,46 +27,66 @@ export function interfaceGetGlobalId(ctx) {
     return ret;
 }
 
-export function interfaceGetRelativeId(base, child) {
+export function interfaceGetRelativeId(base, child, skipCheck) {
     const ret = [];
-    for (var cur = child; cur && cur !== base; cur = cur.parent) {
+    var cur = child;
+    var baseCur = base;
+
+    while (cur && cur.depth !== base.depth) {
         ret.push(cur.id);
+        cur = cur.parent;
     }
+
+    if (!skipCheck) {
+        while (cur) {
+            if (cur.id !== baseCur.id) {
+                return interfaceGetGlobalId(child);
+            }
+            baseCur = baseCur.parent;
+            cur = cur.parent;
+        }
+    }
+
     return ret;
 }
 
 export function setInterface(name, handler, mctx) {
-    const ctx = mctx || interfaceRoot;
+    const ctx = mctx || interfaceRoot
     console.log('setting', name, 'to interace', mctx, 'that is', ctx);
-    ctx.methods[name] = handler;
+    for (var cur = ctx; cur; cur = cur.parent) {
+        cur.methods[name] = [];
+    }
+    subscribeInterface(name, handler, mctx);
 }
 
 export function subscribeInterface(name, handler, mctx) {
-    const ctx = mctx || interfaceRoot;
-    const old = ctx.methods[name];
-    console.log('substribing', name, 'to interace', mctx, 'that is', ctx);
-    if (typeof old == 'function') {
-        ctx.methods[name] = [old, handler];
-    } else if (old) {
-        old.push(handler);
-    } else {
-        ctx.methods[name] = [handler];
+    const ctx = mctx || interfaceRoot
+    const me = [mctx, handler];
+    for (var cur = ctx; cur; cur = cur.parent) {
+        var old = cur.methods[name];
+        if (old) {
+            old.push(me);
+        } else {
+            cur.methods[name] = [me];
+        }
     }
 }
 
 export function unsubscribeInterface(name, handler, mctx) {
     const ctx = mctx || interfaceRoot;
-    const old = ctx.methods[name];
-    console.log('unsubscribing', name, ' to interace', mctx, 'that is', ctx);
-    if (typeof old == 'function') {
-        ctx.methods[name] = undefined;
-    } else if (old) {
-        removeItemAll(old, handler);
+    const me = [mctx, handler];
+
+    console.log('unsubscribing', name, 'from interace', mctx, 'that is', ctx);
+    for (var cur = ctx; cur; cur = cur.parent) {
+        const old = cur.methods[name];
+        if (old) {
+            removeItemAll(old, me);
+        }
     }
     // else: not subscribed. That's fine
 }
 
-export function getInterface(name, mctx) {
+export function getInterfaces(name, mctx) {
     var ctx = mctx || interfaceRoot;
     var target = undefined;
     return function(...args) {
@@ -74,23 +94,31 @@ export function getInterface(name, mctx) {
             for (var cur = ctx; cur; cur = cur.parent) {
                 const found = cur.methods[name];
                 if (found) {
-                    if (typeof found == 'function') {
-                        target = found;
-                    } else { // must be an array
-                        target = function (...args) {
-                            const ret = Array(found.length);
-                            for (var i = 0; i < found.length; i++) {
-                                ret[i] = found[i](...args);
-                            }
-                            return ret;
+                    target = function (...args) {
+                        const ret = new Array(found.length);
+                        for (var i = 0; i < found.length; i++) {
+                            const [id, handler] = found[i];
+                            ret[i] = [id, handler(...args)];
                         }
+                        return ret;
                     }
-                    return target(...args);
+                    return target(...args, mctx);
                 }
             }
-            throw new Error('wrong interface name "' + name + '", existing interfaces: ' + Object.keys(ctx));
+            debugger;
+            throw new Error('wrong interface name "' + name + '", existing interfaces: [' + Object.keys(ctx.methods) + ']');
         }
-        return target(...args);
+        return target(...args, mctx);
+    };
+}
+
+export function getInterface(name, mctx) {
+    const f = getInterfaces(name, mctx);
+    return function(...args) {
+        const all = f(...args);
+        const first = all[0];
+        const [id, ret] = first;
+        return ret;
     };
 }
 

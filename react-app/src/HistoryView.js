@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { setInterface, getInterface, subscribeInterface, zip, range } from './Util.js';
+import { stageInterface, setInterface, getInterface, subscribeInterface, zip, range } from './Util.js';
 import HistoryElement from './HistoryElement.js';
 
 class HistoryView extends Component {
@@ -10,11 +10,11 @@ class HistoryView extends Component {
         this.id = args.id;
 
         this.serialize = () => {
-            return [this.id, this.state];
+            return this.state;
         };
 
         const deserialize = getInterface('deserialize-state', this.ictx);
-        this.state = deserialize(this.id) || { hist: [] };
+        this.state = deserialize() || { hist: [] };
         subscribeInterface('serialize-state',
                            this.serialize,
                            this.ictx);
@@ -40,7 +40,7 @@ class HistoryView extends Component {
         const hist = this.state.hist;
         const indexes = range(hist.length).map(x => this.id + 'historyElement#' + x)
         const ziped = zip(hist, indexes);
-        const maped = ziped.map(x => <HistoryElement ictx={this.ictx} elem={x[0]} id={x[1]} key={x[1]} />)
+        const maped = ziped.map(x => <HistoryElement ictx={stageInterface(this.ictx)} elem={x[0]} id={x[1]} key={x[1]} />)
         return (<div>
                     {maped}
                 <div style={{ float:"left", clear: "both" }}

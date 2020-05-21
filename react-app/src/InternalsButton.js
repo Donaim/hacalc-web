@@ -10,11 +10,11 @@ class InternalsButton extends Component {
         this.id = args.id;
 
         this.serialize = () => {
-            return [this.id, this.state];
+            return this.state;
         };
 
         const deserialize = getInterface('deserialize-state', this.ictx);
-        this.state = deserialize(this.id) || { text: 'Minimal' };
+        this.state = deserialize() || { text: 'Minimal' };
         subscribeInterface('serialize-state',
                            this.serialize,
                            this.ictx);
@@ -35,7 +35,6 @@ class InternalsButton extends Component {
         };
         setInterface('get-visibility-mode', this.getVisibilityMode, this.ictx);
 
-        subscribeInterface('history-elements:update', (...args) => null, this.ictx);
         const updateHists = getInterface('history-elements:update', this.ictx);
         this.onClick = (e) => {
             this.setState((state) => {

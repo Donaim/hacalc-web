@@ -22,7 +22,11 @@ function serverHandlerSend(request, callback) {
                 const nonEmpty = lines.filter(line => line !== '');
                 decorated.push({ text: nonEmpty[nonEmpty.length - 1], isResponse: true });
             }
-            decorated[decorated.length - 1].isFinal = true;
+
+            const last = decorated[decorated.length - 1];
+            last.isFinal = true;
+            last.isInternal = false;
+
             const original = { text: request, isResponse: false };
             const ret = [original, ...decorated];
             callback(ret);
