@@ -19,6 +19,22 @@ const interfaceRoot = {
     methods: {},
 };
 
+export function interfaceGetGlobalId(ctx) {
+    const ret = [];
+    for (var cur = ctx; cur; cur = cur.parent) {
+        ret.push(cur.id);
+    }
+    return ret;
+}
+
+export function interfaceGetRelativeId(base, child) {
+    const ret = [];
+    for (var cur = child; cur && cur !== base; cur = cur.parent) {
+        ret.push(cur.id);
+    }
+    return ret;
+}
+
 export function setInterface(name, handler, mctx) {
     const ctx = mctx || interfaceRoot;
     console.log('setting', name, 'to interace', mctx, 'that is', ctx);
