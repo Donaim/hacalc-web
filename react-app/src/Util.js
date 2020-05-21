@@ -86,7 +86,7 @@ export function unsubscribeInterface(name, handler, mctx) {
     // else: not subscribed. That's fine
 }
 
-export function getInterfaces(name, mctx) {
+export function getInterfaces(name, mctx, skipCheck) {
     var ctx = mctx || interfaceRoot;
     var target = undefined;
     return function(...args) {
@@ -105,15 +105,18 @@ export function getInterfaces(name, mctx) {
                     return target(...args, mctx);
                 }
             }
-            debugger;
-            throw new Error('wrong interface name "' + name + '", existing interfaces: [' + Object.keys(ctx.methods) + ']');
+            if (skipCheck) {
+                return undefined;
+            } else {
+                throw new Error('wrong interface name "' + name + '", existing interfaces: [' + Object.keys(ctx.methods) + ']');
+            }
         }
         return target(...args, mctx);
     };
 }
 
 export function getInterface(name, mctx) {
-    const f = getInterfaces(name, mctx);
+    const f = getInterfaces(name, mctx, false);
     return function(...args) {
         const all = f(...args);
         const first = all[0];

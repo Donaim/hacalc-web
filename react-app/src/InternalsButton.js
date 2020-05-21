@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { subscribeInterface, getInterface, setInterface } from './Util.js';
+import { subscribeInterface, getInterface, getInterfaces, setInterface } from './Util.js';
 
 class InternalsButton extends Component {
 
@@ -35,7 +35,7 @@ class InternalsButton extends Component {
         };
         setInterface('get-visibility-mode', this.getVisibilityMode, this.ictx);
 
-        const updateHists = getInterface('history-elements:update', this.ictx);
+        const updateHists = getInterfaces('history-elements:update', this.ictx, true);
         this.onClick = (e) => {
             this.setState((state) => {
                 const newState = this.cycleState(state);
