@@ -120,7 +120,7 @@ export function getInterface(name, mctx) {
     return function(...args) {
         const all = f(...args);
         const first = all[0];
-        const [id, ret] = first;
+        const ret = first[1];
         return ret;
     };
 }

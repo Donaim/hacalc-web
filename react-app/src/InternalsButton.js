@@ -24,6 +24,7 @@ class InternalsButton extends Component {
             case 'Minimal': return 'Internals';
             case 'Internals': return 'Internals*';
             case 'Internals*': return 'Minimal';
+            default: throw new Error("Unknonw state: " + text);
             }
         }
         this.cycleState = (state) => {
