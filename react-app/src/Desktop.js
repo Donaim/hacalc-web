@@ -13,29 +13,43 @@ class Desktop extends Component {
         this.ictx = args.ictx;
         this.id = args.id;
 
-        this.addWindow = (windowSerializedState) => {
-            console.log('adding new window with state: ', windowSerializedState);
+        const createWindow = (state, windowSerializedState) => {
+            const ictx = stageInterface(this.ictx);
+            const count = state.windows.length;
+            const id = this.id + 'DesktopWindow#' + count;
+            const window = <Window key={id} id={id} serializedState={windowSerializedState} ictx={ictx}/>;
+            return [window, id, ictx];
+        }
 
+        this.addWindow = (myId) => (windowSerializedState) => {
             function update(state) {
-                const ictx = stageInterface(this.ictx);
-                const count = state.windows.length;
-                const key = this.id + 'DesktopWindow#' + count;
-                // const window = <Window key={key} serializedState={windowSerializedState} ictx={ictx}/>
+                const [window, id, ictx] = createWindow(state, windowSerializedState);
 
-                setInterface('desktop:add-window', this.addWindow, ictx);
+                setInterface('desktop:add-window', this.addWindow(id), ictx);
 
-                this.removeWindow = () => {
+                const removeWindow = () => {
                     function update(state) {
-                        const newWindows = state.windows.filter((win) => win.props.id !== key);
-                        console.log('removing window: ', key, 'new:', newWindows);
+                        const newWindows = state.windows.filter((win) => win.props.id !== id);
+                        console.log('removing window: ', id, 'new:', newWindows);
                         return {...state, windows: newWindows };
                     }
                     this.setState(update);
                 };
-                setInterface('desktop:remove-window', this.removeWindow, ictx);
+                setInterface('desktop:remove-window', removeWindow, ictx);
 
-                const window = <Window key={key} id={key} serializedState={windowSerializedState} ictx={ictx}/>
-                const newWindows = [...state.windows, window];
+                var newWindows;
+                if (myId === null) {
+                    newWindows = [...state.windows, window];
+                } else {
+                    newWindows = [];
+                    for (const w of state.windows) {
+                        newWindows.push(w);
+                        if (w.props.id === myId) {
+                            newWindows.push(window);
+                        }
+                    }
+                }
+
                 return {...state, windows: newWindows };
             }
             this.setState(update);
@@ -43,7 +57,7 @@ class Desktop extends Component {
     }
 
     componentDidMount() {
-        this.addWindow(null);
+        this.addWindow(null)(null);
     }
 
     render() {
