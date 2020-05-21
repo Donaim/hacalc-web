@@ -15,7 +15,7 @@ class HistoryElement extends Component {
         };
 
         const deserialize = getInterface('deserialize-state', this.ictx);
-        this.state = deserialize(this.id) ||  { hide: true };
+        this.state = deserialize(this.id);
         subscribeInterface('serialize-state',
                            this.serialize,
                            this.ictx);
@@ -27,6 +27,24 @@ class HistoryElement extends Component {
                 this.state = modifier(this.state);
             }
         };
+
+        this.setVisibility = (mode) => {
+            // console.log("my visib:", this.state.hide); // DEBUG
+            switch (mode) {
+            case 'Minimal':
+                return this.wrapSetState((state) => ({ hide: true }));
+            case 'Internals':
+                return this.wrapSetState((state) => ({ hide: this.isInternal }));
+            case 'Internals*':
+                return this.wrapSetState((state) => ({ hide: false }));
+            }
+        };
+        subscribeInterface('history-elements:update', this.setVisibility, this.ictx);
+
+        const getVisibilityMode = getInterface('get-visibility-mode', this.ictx);
+        if (!this.state) {
+            this.setVisibility(getVisibilityMode());
+        }
 
         const elem = args.elem;
         const isString = typeof elem == 'string';
@@ -42,21 +60,6 @@ class HistoryElement extends Component {
                             value={this.text}
                             style={this.style}
                      />);
-
-        this.setVisibility = (mode) => {
-            console.log("my visib:", this.state.hide); // DEBUG
-
-            switch (mode) {
-            case 'Minimal':
-                return this.wrapSetState((state) => ({ hide: true }));
-            case 'Internals':
-                return this.wrapSetState((state) => ({ hide: this.isInternal }));
-            case 'Internals*':
-                return this.wrapSetState((state) => ({ hide: false }));
-            }
-        };
-
-        subscribeInterface('history-elements:update', this.setVisibility, this.ictx);
     }
 
     componentDidMount() {
