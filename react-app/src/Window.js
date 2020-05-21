@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ConsoleInput from './ConsoleInput.js';
 import HistoryView from './HistoryView.js';
+import InternalsButton from './InternalsButton.js';
 import { getInterface } from './Util.js';
 
 function makeButton(text, handler) {
@@ -37,16 +38,10 @@ class Window extends Component {
 
         const addWindow = getInterface('desktop:add-window', this.ictx);
         const getHistState = getInterface('history:get-state', this.ictx);
-        const updateHists = getInterface('history-elements:update', this.ictx);
 
         this.onCloneClick = (e) => {
             const histState = getHistState();
             addWindow(histState);
-        };
-
-        this.onInternalsClick = (e) => {
-            console.log("CLICKED"); // DEBUG
-            updateHists(true); // DEBUG
         };
     }
 
@@ -56,7 +51,7 @@ class Window extends Component {
         return (<div style={this.styles}>
                     <div className="btn-group d-flex" role='group' >
                         {makeButton('Close', null)}
-                        {makeButton('Internals', this.onInternalsClick)}
+                        <InternalsButton ictx={this.ictx} />
                         {makeButton('Clone', this.onCloneClick)}
                     </div>
                     <div style={this.historyStyles}>

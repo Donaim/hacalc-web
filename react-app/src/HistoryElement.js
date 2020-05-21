@@ -38,11 +38,16 @@ class HistoryElement extends Component {
                             style={this.style}
                      />);
 
-        this.setVisibility = (shouldHide) => {
-            if (this.isInternal) {
-                console.log("my visib:", this.state.hide); // DEBUG
-                // this.setState({ hide: shouldHide });
-                this.wrapSetState((state) => ({ hide: !state.hide }));
+        this.setVisibility = (mode) => {
+            console.log("my visib:", this.state.hide); // DEBUG
+
+            switch (mode) {
+            case 'Minimal':
+                return this.wrapSetState((state) => ({ hide: true }));
+            case 'Internals':
+                return this.wrapSetState((state) => ({ hide: this.isInternal }));
+            case 'Internals*':
+                return this.wrapSetState((state) => ({ hide: false }));
             }
         };
 
@@ -61,7 +66,7 @@ class HistoryElement extends Component {
     render() {
         var elem;
 
-        if (this.isInternal && this.state.hide) {
+        if (this.state.hide) {
             elem = null;
         } else {
             elem = this.elem;
