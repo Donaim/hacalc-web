@@ -78,7 +78,7 @@ class HistoryElement extends Component {
             elem = this.elem;
         }
 
-        return (<div> {elem} </div>);
+        return (<React.Fragment>{elem}</React.Fragment>);
     }
 }
 
