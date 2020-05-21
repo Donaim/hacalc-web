@@ -30,7 +30,7 @@ export function subscribeInterface(name, handler, mctx) {
     } else if (old) {
         old.push(handler);
     } else {
-        first[name] = handler;
+        first[name] = [handler];
     }
 }
 
