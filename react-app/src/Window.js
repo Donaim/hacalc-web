@@ -20,7 +20,7 @@ class Window extends Component {
         float: 'left',
         margin: '20px',
         textAlign: 'left',
-        height: '60vh',
+        height: '100%',
     };
 
     historyStyles = {
