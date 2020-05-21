@@ -15,6 +15,7 @@ const interfaceRoot = {
     parent: null,
     children: [],
     id: 0,
+    depth: 0,
     methods: {},
 };
 
@@ -79,12 +80,17 @@ export function getInterface(name, mctx) {
 
 export function stageInterface(mctx) {
     var ctx = mctx || interfaceRoot;
-    return {
+    const id = ctx.children.length;
+    const depth = 1 + ctx.depth;
+    const me = {
         parent: ctx,
         children: [],
-        id: 0,
+        id: id,
+        depth: depth,
         methods: {},
     };
+    ctx.children.push(me);
+    return me;
 }
 
 export function range(start, stop, step) {
