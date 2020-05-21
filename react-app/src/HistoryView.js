@@ -6,7 +6,7 @@ class HistoryView extends Component {
 
     constructor(args) {
         super();
-        this.state = args.initialState || {hist: []};
+        this.state = args.initialState || { hist: [] };
         this.ictx = args.ictx;
 
         const addItem = (outputs) => {

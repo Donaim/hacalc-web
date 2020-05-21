@@ -8,6 +8,20 @@ class HistoryElement extends Component {
 
         this.ictx = args.ictx;
         this.mounted = false;
+        this.state = args.elem.initialState || { hide: true };
+        args.elem.initialState = this.state;
+
+        this.wrapSetState = (modifier) => {
+            if (this.mounted) {
+                this.setState((state) => {
+                    args.elem.initialState = modifier(state);
+                    return args.elem.initialState;
+                });
+            } else {
+                args.elem.initialState = modifier(args.elem.initialState);
+                this.state = args.elem.initialState;
+            }
+        };
 
         const elem = args.elem;
         const isString = typeof elem == 'string';
@@ -18,9 +32,6 @@ class HistoryElement extends Component {
         this.style = isResponse ? { backgroundColor: '#61dafb', border: '1px solid #61dafb' } : { backgroundColor: 'white' };
         this.style.width = '100%';
 
-        this.state = {
-            hide: true,
-        };
         this.elem = (<input tabIndex={-1}
                             readOnly={true}
                             value={this.text}
@@ -28,14 +39,10 @@ class HistoryElement extends Component {
                      />);
 
         this.setVisibility = (shouldHide) => {
-            if (this.mounted) {
-                if (this.isInternal) {
-                    console.log("my visib:", this.state.hide); // DEBUG
-                    // this.setState({ hide: shouldHide });
-                    this.setState((state) => ({ hide: !state.hide }));
-                }
-            } else {
-                this.state.hide = shouldHide;
+            if (this.isInternal) {
+                console.log("my visib:", this.state.hide); // DEBUG
+                // this.setState({ hide: shouldHide });
+                this.wrapSetState((state) => ({ hide: !state.hide }));
             }
         };
 
