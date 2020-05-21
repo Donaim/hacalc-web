@@ -6,7 +6,8 @@ function isInternal(line) {
 }
 
 function serverHandlerSend(request, callback) {
-    fetch('http://127.0.0.1:1337/calc/' + request).then(response => {
+    const encoded = encodeURIComponent(request);
+    fetch('http://127.0.0.1:1337/calc/' + encoded).then(response => {
         response.text().then(text => {
             const lines = text.split('\n');
             const maped = lines.map(line => line.trim()).map(line => line.startsWith('->') ? line.substring(2).trim() : '');
