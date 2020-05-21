@@ -68,7 +68,8 @@ function serverCallback(request, response) {
                 response.write("<p>Page not found</p>");
                 console.error("Unknown route request = \"" + pathname + "\" (" + err + ")");
             } else {
-                response.writeHead(200, {"Content-Type": "text/html"});
+                const mimetype = pathname.endsWith(".js") ? "text/javascript" : "text/html";
+                response.writeHead(200, {"Content-Type": mimetype});
                 response.write(data);
             }
             response.end();
