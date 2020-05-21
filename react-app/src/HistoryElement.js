@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { subscribeInterface, unsubscribeInterface } from './Util.js';
+import { getInterface, subscribeInterface, unsubscribeInterface } from './Util.js';
 
 class HistoryElement extends Component {
 
@@ -7,19 +7,24 @@ class HistoryElement extends Component {
         super();
 
         this.ictx = args.ictx;
+        this.id = args.id;
         this.mounted = false;
-        this.state = args.elem.initialState || { hide: true };
-        args.elem.initialState = this.state;
+
+        this.serialize = () => {
+            return [this.id, this.state];
+        };
+
+        const deserialize = getInterface('deserialize-state', this.ictx);
+        this.state = deserialize(this.id) ||  { hide: true };
+        subscribeInterface('serialize-state',
+                           this.serialize,
+                           this.ictx);
 
         this.wrapSetState = (modifier) => {
             if (this.mounted) {
-                this.setState((state) => {
-                    args.elem.initialState = modifier(state);
-                    return args.elem.initialState;
-                });
+                this.setState(modifier);
             } else {
-                args.elem.initialState = modifier(args.elem.initialState);
-                this.state = args.elem.initialState;
+                this.state = modifier(this.state);
             }
         };
 
@@ -61,6 +66,7 @@ class HistoryElement extends Component {
     componentWillUnmount() {
         this.mounted = false;
         unsubscribeInterface('history-elements:update', this.setVisibility, this.ictx);
+        unsubscribeInterface('serialize-state', this.serialize, this.ictx);
     }
 
     render() {

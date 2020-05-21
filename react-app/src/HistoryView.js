@@ -38,9 +38,9 @@ class HistoryView extends Component {
 
     render() {
         const hist = this.state.hist;
-        const indexes = range(hist.length).map(x => this.props.key + 'historyElement#' + x)
+        const indexes = range(hist.length).map(x => this.id + 'historyElement#' + x)
         const ziped = zip(hist, indexes);
-        const maped = ziped.map(x => <HistoryElement ictx={this.ictx} elem={x[0]} key={x[1]} />)
+        const maped = ziped.map(x => <HistoryElement ictx={this.ictx} elem={x[0]} id={x[1]} key={x[1]} />)
         return (<div>
                     {maped}
                 <div style={{ float:"left", clear: "both" }}
