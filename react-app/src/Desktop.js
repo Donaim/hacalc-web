@@ -15,11 +15,12 @@ class Desktop extends Component {
         this.state = { windows: [] };
         this.ictx = args.ictx;
         this.id = args.id;
+        this.count = 0;
 
         const createWindow = (state, windowSerializedState) => {
             const ictx = stageInterface(this.ictx);
-            const count = state.windows.length;
-            const id = this.id + 'DesktopWindow#' + count;
+            this.count++;
+            const id = this.id + 'DesktopWindow#' + this.count;
             const window = <Window key={id} id={id} serializedState={windowSerializedState} ictx={ictx}/>;
             return [window, id, ictx];
         }
