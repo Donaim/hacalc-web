@@ -11,8 +11,6 @@ $(EXETGT): build
 build: $(BUILDTGT)
 
 $(BUILDTGT):
-	cd hacalc
 	git submodule update --init --recursive
-	stack build
+	cd hacalc && stack build
 
-.ONESHELL: $(BUILDTGT)
