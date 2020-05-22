@@ -7,6 +7,13 @@ class App extends Component {
     styles = { height: '90vh',
              };
 
+    innerStyles = { marginTop: 'auto',
+                    marginBottom: 'auto',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    height: '90%',
+                  };
+
     constructor() {
         super();
         this.state = {};
@@ -15,8 +22,10 @@ class App extends Component {
     render() {
         return (
             <div className="App-header" style={this.styles}>
-                <p> Edit <code>src/Window.js</code> and save to reload. </p>
-                <Desktop />
+                <div style={this.innerStyles}>
+                    <p> Edit <code>src/Window.js</code> and save to reload. </p>
+                    <Desktop />
+                </div>
             </div>
         );
     }

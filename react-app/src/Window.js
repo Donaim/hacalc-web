@@ -16,7 +16,7 @@ function makeButton(text, handler) {
 class Window extends Component {
 
     styles = {
-        width: '500px',
+        width: '40vw',
         float: 'left',
         margin: '20px',
         textAlign: 'left',

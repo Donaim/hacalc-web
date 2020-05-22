@@ -5,9 +5,7 @@ import { stageInterface, setInterface } from './Util.js';
 class Desktop extends Component {
 
     styles = { display: 'inline-flex',
-               marginLeft: 'auto', //alternative to justify-content
-               marginRight: 'auto',
-               height: '80%',
+               height: '90%',
              };
 
     constructor(args) {
