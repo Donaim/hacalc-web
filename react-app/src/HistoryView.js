@@ -10,9 +10,7 @@ class HistoryView extends Component {
         this.id = args.id;
         this.loadId = args.loadId;
 
-        this.serialize = () => {
-            return this.state;
-        };
+        this.serialize = () => this.state;
 
         const deserialize = getInterface('deserialize-state', this.ictx);
         this.state = deserialize() || { hist: [] };

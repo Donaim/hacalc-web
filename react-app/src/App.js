@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Desktop from './Desktop.js';
+import { stageInterface, subscribeInterface } from './Util.js';
 
 class App extends Component {
 
@@ -16,15 +17,21 @@ class App extends Component {
 
     constructor() {
         super();
-        this.state = {};
+
+        this.ictx = stageInterface(null);
+        this.state = null;
+        this.serialize = () => null;
+        subscribeInterface('serialize-state',
+                           this.serialize,
+                           this.ictx);
     }
 
     render() {
+        console.log("rendering app!");
         return (
             <div className="App-header" style={this.styles}>
                 <div style={this.innerStyles}>
-                    <p> Edit <code>src/Window.js</code> and save to reload. </p>
-                    <Desktop />
+                    <Desktop ictx={this.ictx} />
                 </div>
             </div>
         );

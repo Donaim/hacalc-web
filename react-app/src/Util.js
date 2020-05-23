@@ -1,4 +1,14 @@
 
+import { parse, stringify } from 'flatted';
+
+export function json_stringify_circular(obj) {
+    return stringify(obj);
+}
+
+export function json_parse_circular(obj) {
+    return parse(obj);
+}
+
 function removeItemAll(arr, value) {
     var i = 0;
     while (i < arr.length) {
@@ -31,6 +41,10 @@ export function interfaceGetRelativeId(base, child, skipCheck) {
     const ret = [];
     var cur = child;
     var baseCur = base;
+
+    if (base === undefined) {
+        debugger;
+    }
 
     while (cur && cur.depth !== base.depth) {
         ret.push(cur.id);

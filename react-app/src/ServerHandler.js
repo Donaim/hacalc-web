@@ -1,13 +1,15 @@
 
-import { setInterface } from './Util.js';
+import { setInterface, getInterface, json_stringify_circular, json_parse_circular } from './Util.js';
 
 function isInternal(line) {
     return line.includes('$');
 }
 
+const SERVER_ADDRESS = 'http://127.0.0.1:1337';
+
 function serverHandlerSend(request, callback) {
     const encoded = encodeURIComponent(request);
-    fetch('http://127.0.0.1:1337/calc/' + encoded).then(response => {
+    fetch(SERVER_ADDRESS + '/calc/' + encoded).then(response => {
         response.text().then(text => {
             const lines = text.split('\n');
             const maped = lines.map(line => line.trim()).map(line => line.startsWith('->') ? line.substring(2).trim() : '');
@@ -34,7 +36,53 @@ function serverHandlerSend(request, callback) {
     });
 }
 
+const serverHandlerShare = (function () {
+    const serialize = getInterface('serialize-state', null);
+    return function (state) {
+        const s = json_stringify_circular(state);
+        const key = 'cc1337cc'; // TODO: use hash
+        const parameters = {
+            method: 'POST',
+            redirect: 'follow',
+            mode: 'no-cors',
+            headers: {
+                "Content-Type": "plain/text",
+                "Access-Control-Allow-Origin": "*",
+            },
+            body: s,
+        };
+
+        function callback(response) {
+            console.log('response:', response);
+        }
+
+        fetch(SERVER_ADDRESS + '/share/' + key, parameters).then(callback)
+
+        return s;
+    }
+}());
+
+function serverHandlerLoad() {
+    function cbacked(resolve, reject) {
+        const key = 'cc1337cc';
+
+        function callback_text(text) {
+            const obj = json_parse_circular(text);
+            resolve(obj);
+        }
+        function callback(response) {
+            response.text().then(callback_text);
+        }
+
+        fetch(SERVER_ADDRESS + '/load/' + key).then(callback);
+    }
+
+    return new Promise(cbacked);
+}
+
 export function serverHandlerInit() {
     setInterface('serverHandler:send', serverHandlerSend);
+    setInterface('share', serverHandlerShare);
+    setInterface('load', serverHandlerLoad);
 }
 
