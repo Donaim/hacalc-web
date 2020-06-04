@@ -5,6 +5,9 @@
 (define-job (node)
   (sh "cd src && npm install"))
 
+(define-job (inherit)
+  (system "/usr/bin/env bash"))
+
 (define-env PGDATA "build/pgdata-dir")
 (define-env PGDATABASE "hacalcweb")
 (define-env SCHEMA "hacalcschema")
