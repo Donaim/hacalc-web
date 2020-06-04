@@ -13,9 +13,7 @@ class ShareButton extends Component {
 
         this.onClick = (e) => {
             const st = serializeWindow();
-            const ret = share(st);
-            console.log(ret);
-            alert(ret);
+            share(st);
         };
     }
 
