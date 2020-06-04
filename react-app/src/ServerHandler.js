@@ -54,8 +54,8 @@ const serverHandlerShare = (function () {
 
         function callback(response) {
             const loc = window.location;
-            const href = loc.href;
-            window.open(href + 'load/' + key);
+            const href = loc.origin;
+            window.open(href + '/load/' + key);
             console.log('response:', response);
         }
 
