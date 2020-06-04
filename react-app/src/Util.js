@@ -154,6 +154,27 @@ export function stageInterface(mctx) {
     return me;
 }
 
+export function serializeRecursive(ictx, serialize) {
+    var lock = false;
+    function myself() { return lock; }
+
+    return function() {
+        if (lock) { return myself; }
+        lock = true;
+        const allStates = serialize();
+        lock = false;
+        const serialized = {};
+        for (var i = 0; i < allStates.length; i++) {
+            const [ctx, response] = allStates[i];
+            if (response !== myself) {
+                const id = interfaceGetRelativeId(ictx, ctx);
+                serialized[id] = response;
+            }
+        }
+        return serialized;
+    };
+}
+
 export function range(start, stop, step) {
     if (typeof stop == 'undefined') {
         // one param defined

@@ -3,7 +3,7 @@ import ConsoleInput from './ConsoleInput.js';
 import HistoryView from './HistoryView.js';
 import ShareButton from './ShareButton.js';
 import InternalsButton from './InternalsButton.js';
-import { stageInterface, setInterface, getInterface, getInterfaces, interfaceGetRelativeId, subscribeInterface } from './Util.js';
+import { serializeRecursive, stageInterface, setInterface, getInterface, getInterfaces, interfaceGetRelativeId, subscribeInterface } from './Util.js';
 
 function makeButton(text, handler) {
     return <button
@@ -41,30 +41,6 @@ class Window extends Component {
 
         this.serializedState = args.serializedState || {};
 
-        var lock = false;
-        function myself() { return lock; }
-        this.serializeThis = () => {
-            if (lock) { return myself; }
-            lock = true;
-            const allStates = serialize();
-            lock = false;
-            const serialized = {};
-            for (var i = 0; i < allStates.length; i++) {
-                const [ctx, response] = allStates[i];
-                if (response !== myself) {
-                    const id = interfaceGetRelativeId(this.ictx, ctx);
-                    serialized[id] = response;
-                }
-            }
-            return serialized;
-        };
-        subscribeInterface('serialize-state',
-                           this.serializeThis,
-                           this.ictx);
-        setInterface('serialize-window',
-                     this.serializeThis,
-                     this.ictx);
-
         this.deserialize = (ctx) => {
             const id = interfaceGetRelativeId(this.ictx, ctx);
             return this.serializedState[id];
@@ -75,8 +51,16 @@ class Window extends Component {
         const removeWindow = getInterface('desktop:remove-window', this.ictx);
         const serialize = getInterfaces('serialize-state', this.ictx);
 
+        const serializeThis = serializeRecursive(this.ictx, serialize);
+        subscribeInterface('serialize-state',
+                           serializeThis,
+                           this.ictx);
+        setInterface('serialize-window',
+                     serializeThis,
+                     this.ictx);
+
         this.onCloneClick = (e) => {
-            const serialized = this.serializeThis();
+            const serialized = serializeThis();
             addWindow(serialized);
         };
         this.onCloseClick = (e) => {
