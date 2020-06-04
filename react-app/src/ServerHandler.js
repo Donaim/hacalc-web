@@ -1,4 +1,5 @@
 
+import * as md5 from 'md5';
 import { setInterface, json_stringify_circular, json_parse_circular } from './Util.js';
 
 function isInternal(line) {
@@ -39,7 +40,7 @@ function serverHandlerSend(request, callback) {
 const serverHandlerShare = (function () {
     return function (state) {
         const s = json_stringify_circular(state);
-        const key = 'cc1337cc'; // TODO: use hash
+        const key = md5(s);
         const parameters = {
             method: 'POST',
             redirect: 'follow',
@@ -52,6 +53,9 @@ const serverHandlerShare = (function () {
         };
 
         function callback(response) {
+            const loc = window.location;
+            const href = loc.href;
+            window.open(href + 'load/' + key);
             console.log('response:', response);
         }
 
@@ -61,10 +65,8 @@ const serverHandlerShare = (function () {
     }
 }());
 
-function serverHandlerLoad() {
+function serverHandlerLoad(key) {
     function cbacked(resolve, reject) {
-        const key = 'cc1337cc';
-
         function callback_text(text) {
             const obj = json_parse_circular(text);
             resolve(obj);

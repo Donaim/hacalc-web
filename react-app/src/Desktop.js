@@ -75,8 +75,9 @@ class Desktop extends Component {
             var st;
             const loc = window.location;
             if (loc.pathname.startsWith('/load/')) {
+                const key = loc.pathname.substring('/load/'.length);
                 const load = getInterface('load');
-                st = await load();
+                st = await load(key);
                 console.log('loading from state:', st);
             } else {
                 st = null;
