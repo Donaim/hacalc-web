@@ -58,7 +58,7 @@ class HistoryElement extends Component {
                 throw new Error("Unknown visibility mode: " + mode);
             }
         };
-        subscribeInterface('history-elements:update', this.setVisibility, this.ictx);
+        subscribeInterface('history-update', this.setVisibility, this.ictx);
 
         const getVisibilityMode = getInterface('get-visibility-mode', this.ictx);
         if (!this.state) {
@@ -74,7 +74,7 @@ class HistoryElement extends Component {
 
     componentWillUnmount() {
         this.mounted = false;
-        unsubscribeInterface('history-elements:update', this.setVisibility, this.ictx);
+        unsubscribeInterface('history-update', this.setVisibility, this.ictx);
         unsubscribeInterface('serialize-state', this.serialize, this.ictx);
     }
 

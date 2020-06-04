@@ -80,7 +80,7 @@ function serverHandlerLoad() {
 }
 
 export function serverHandlerInit() {
-    setInterface('serverHandler:send', serverHandlerSend);
+    setInterface('server-calc', serverHandlerSend);
     setInterface('share', serverHandlerShare);
     setInterface('load', serverHandlerLoad);
 }

@@ -21,7 +21,7 @@ class HistoryView extends Component {
         const addItem = (outputs) => {
             this.setState(state => ({hist: [...state.hist, ...outputs]}));
         }
-        setInterface('history:add-response', addItem, this.ictx);
+        setInterface('history-add-response', addItem, this.ictx);
     }
 
     scrollToBottom = (smooth) => {

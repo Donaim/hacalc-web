@@ -36,7 +36,7 @@ class InternalsButton extends Component {
         };
         setInterface('get-visibility-mode', this.getVisibilityMode, this.ictx);
 
-        const updateHists = getInterfaces('history-elements:update', this.ictx, true);
+        const updateHists = getInterfaces('history-update', this.ictx, true);
         this.onClick = (e) => {
             this.setState((state) => {
                 const newState = this.cycleState(state);

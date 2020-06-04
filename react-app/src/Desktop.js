@@ -27,7 +27,7 @@ class Desktop extends Component {
             const ictx = stageInterface(this.ictx);
             window.ictx = ictx;
 
-            subscribeInterface('desktop:add-window', this.addWindow(count), ictx);
+            subscribeInterface('add-window', this.addWindow(count), ictx);
 
             const removeWindow = () => {
                 const newWindows = this.windows.filter((win) => win.count !== count);
@@ -35,7 +35,7 @@ class Desktop extends Component {
                 this.windows = newWindows;
                 this.setState(s => ({ ...s, indexes: s.indexes.filter(i => i !== count)}));
             };
-            subscribeInterface('desktop:remove-window', removeWindow, ictx);
+            subscribeInterface('remove-window', removeWindow, ictx);
 
             var newWindows;
             if (parentCount === null) {

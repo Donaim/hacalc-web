@@ -47,8 +47,8 @@ class Window extends Component {
         };
         subscribeInterface('deserialize-state', this.deserialize, this.ictx);
 
-        const addWindow = getInterface('desktop:add-window', this.ictx);
-        const removeWindow = getInterface('desktop:remove-window', this.ictx);
+        const addWindow = getInterface('add-window', this.ictx);
+        const removeWindow = getInterface('remove-window', this.ictx);
         const serialize = getInterfaces('serialize-state', this.ictx);
 
         const serializeThis = serializeRecursive(this.ictx, serialize);
