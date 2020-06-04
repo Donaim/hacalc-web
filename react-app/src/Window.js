@@ -39,8 +39,7 @@ class Window extends Component {
         this.count = args.count;
         this.id = args.id;
 
-        const deserializeI = getInterface('deserialize-state', this.ictx);
-        this.serializedState = args.serializedState || deserializeI() || {};
+        this.serializedState = args.serializedState || {};
 
         var lock = false;
         function myself() { return lock; }
@@ -68,7 +67,6 @@ class Window extends Component {
 
         this.deserialize = (ctx) => {
             const id = interfaceGetRelativeId(this.ictx, ctx);
-            // console.log('deserialize', ctx, 'id:', id, 'from', this.serializedState);
             return this.serializedState[id];
         };
         subscribeInterface('deserialize-state', this.deserialize, this.ictx);
@@ -87,8 +85,6 @@ class Window extends Component {
     }
 
     render() {
-        console.log('window');
-
         return (<div style={this.styles}>
                     <div className="btn-group d-flex" role='group' >
                         {makeButton('Close', this.onCloseClick)}

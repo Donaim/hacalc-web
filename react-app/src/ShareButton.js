@@ -8,7 +8,7 @@ class ShareButton extends Component {
         this.ictx = args.ictx;
         this.state = null;
 
-        const share = getInterface('share', null);
+        const share = getInterface('share');
         const serializeWindow = getInterface('serialize-window', this.ictx);
 
         this.onClick = (e) => {

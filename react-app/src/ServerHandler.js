@@ -1,5 +1,5 @@
 
-import { setInterface, getInterface, json_stringify_circular, json_parse_circular } from './Util.js';
+import { setInterface, json_stringify_circular, json_parse_circular } from './Util.js';
 
 function isInternal(line) {
     return line.includes('$');
@@ -37,7 +37,6 @@ function serverHandlerSend(request, callback) {
 }
 
 const serverHandlerShare = (function () {
-    const serialize = getInterface('serialize-state', null);
     return function (state) {
         const s = json_stringify_circular(state);
         const key = 'cc1337cc'; // TODO: use hash

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Window from './Window.js';
-import { stageInterface, getInterface, getInterfaces, subscribeInterface, interfaceGetRelativeId } from './Util.js';
+import { stageInterface, getInterface, subscribeInterface } from './Util.js';
 
 class Desktop extends Component {
 
@@ -14,41 +14,7 @@ class Desktop extends Component {
         this.id = args.id;
         this.mounted = false;
 
-        const deserializeI = getInterface('deserialize-state', this.ictx);
-        const deser = deserializeI();
-        this.state = (deser && deser.me) || { count: 0, indexes: [] };
-        this.serializedState = deser || { me: this.state, down: {} };
-
-        const serialize = getInterfaces('serialize-state', this.ictx);
-
-        var lock = false;
-        function myself() { return lock; }
-        this.serializeThis = () => {
-            if (lock) { return myself; }
-            lock = true;
-            const allStates = serialize();
-            lock = false;
-            const serialized = {};
-            for (var i = 0; i < allStates.length; i++) {
-                const [ctx, response] = allStates[i];
-                if (response !== myself) {
-                    const id = interfaceGetRelativeId(this.ictx, ctx);
-                    serialized[id] = response;
-                }
-            }
-            return { me: this.state, down: serialized };
-        };
-        subscribeInterface('serialize-state',
-                           this.serializeThis,
-                           this.ictx);
-
-        this.deserialize = (ctx) => {
-            const id = interfaceGetRelativeId(this.ictx, ctx);
-            console.log('deserialize', ctx, 'id:', id, 'from', this.serializedState);
-            return this.serializedState.down[id];
-        };
-        subscribeInterface('deserialize-state', this.deserialize, this.ictx);
-
+        this.state = { count: 0, indexes: [] };
         this.windows = [];
 
         this.initWindow = (parentCount, count) => (windowSerializedState) => {
@@ -84,9 +50,6 @@ class Desktop extends Component {
                 }
             }
 
-            console.log('parentcount:', parentCount, 'count:', count);
-            // console.log('before indexes:', state.indexes, 'windows', this.windows);
-
             this.windows = newWindows;
         };
 
@@ -109,24 +72,17 @@ class Desktop extends Component {
         };
 
         async function finish_init(me) {
-            if (me.state.count === 0) {
-                var st;
-                const loc = window.location;
-                if (loc.pathname.startsWith('/load/')) {
-                    const load = getInterface('load');
-                    st = await load();
-                    console.log('loading from state:', st);
-                } else {
-                    st = null;
-                }
-
-                me.addWindow(null)(st);
+            var st;
+            const loc = window.location;
+            if (loc.pathname.startsWith('/load/')) {
+                const load = getInterface('load');
+                st = await load();
+                console.log('loading from state:', st);
             } else {
-                for (const i of me.state.indexes) {
-                    const [ parentCount, count ] = i;
-                    me.initWindow(parentCount, count)(null);
-                }
+                st = null;
             }
+
+            me.addWindow(null)(st);
         }
         finish_init(this);
     }
