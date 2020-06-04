@@ -5,18 +5,17 @@ const util = require("./util.js");
 const postgres = require("./postgres-plug.js");
 const prefix = "/load/";
 
-function restore(key) {
-    return new Promise((resolve, reject) => {
-        function callback(err, data) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(data);
-            }
-        }
-        fs.readFile(key, callback);
-    });
-}
+const restore =
+      function () {
+          var client = undefined;
+          return async function(key) {
+              if (client == undefined) {
+                  client = await postgres.initialize_client();
+              }
+
+              return postgres.get_key_value(client, key);
+          };
+      }();
 
 async function handle(request, response, pathname) {
     const key = pathname.substring(prefix.length);

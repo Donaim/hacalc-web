@@ -11,15 +11,6 @@ const stat = require("./src/static.js");
 const share = require("./src/share.js");
 const load = require("./src/load.js");
 
-// const lol = require("./postgresql/postgres-plug.js");
-
-// async function kek() {
-//     const errors = await lol.try_connect();
-//     console.log('result:', errors);
-// }
-
-// kek();
-
 function serverCallback(request, response) {
     const method = request.method;
     const pathname = url.parse(request.url).pathname;
