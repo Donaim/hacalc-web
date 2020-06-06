@@ -27,11 +27,28 @@ class Intro extends Component {
         this.mounted = true;
     }
 
+    examples = [
+        "2 + 2 * 2",
+        "2 ^ 77",
+        "1 << 77",
+        "base 2 (1 << 77)",
+        "0001#2 + 100101#2",
+        "FF00AA#16 + 100101#2",
+        "1 << 3",
+        "0100#2 | 1001#2",
+        "digits 100 pi",
+    ];
+    mapped = this.examples.map(w => <React.Fragment key={w}> Try <code> {w} </code> <br></br> </React.Fragment>);
+
     render() {
         if (this.state.hidden) {
             return null;
         } else {
-            return (<img src={"logo255.png"} alt="Logo" />);
+            return (<React.Fragment>
+                        <img src={"logo255.png"} alt="Logo" />
+                        <p> This is <a href="https://github.com/Donaim/hacalc" >Hacalc</a> - a calculator based on term rewriting </p>
+                        <p> {this.mapped} </p>
+                    </React.Fragment>);
         }
     }
 }
