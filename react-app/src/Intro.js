@@ -9,10 +9,12 @@ class Intro extends Component {
             hidden: false,
         };
 
-        var hidden = false;
+        if (window.location.pathname !== '/') {
+            this.state.hidden = true;
+        }
+
         const hide = () => {
-            if (hidden) { return; }
-            hidden = true;
+            if (this.state.hidden) { return; }
             const update = (state) => ({...state, hidden: true });
             if (this.mounted) {
                 this.setState(update);
