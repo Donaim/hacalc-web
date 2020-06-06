@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Desktop from './Desktop.js';
+import Intro from './Intro.js';
 import { stageInterface, subscribeInterface } from './Util.js';
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
         console.log("rendering app!");
         return (
             <div className="App-header" style={this.styles}>
+                <Intro />
                 <div style={this.innerStyles}>
                     <Desktop ictx={this.ictx} />
                 </div>
