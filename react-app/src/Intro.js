@@ -47,7 +47,7 @@ class Intro extends Component {
             return null;
         } else {
             return (<React.Fragment>
-                        <img src={"logo255.png"} alt="Logo" />
+                        <img src={"big-logo.png"} alt="Logo" />
                         <p> This is <a href="https://github.com/Donaim/hacalc" >Hacalc</a> - a calculator based on term rewriting </p>
                         <p> {this.mapped} </p>
                     </React.Fragment>);
