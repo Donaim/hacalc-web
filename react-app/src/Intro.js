@@ -36,7 +36,6 @@ class Intro extends Component {
         "base 2 (1 << 77)",
         "0001#2 + 100101#2",
         "FF00AA#16 + 100101#2",
-        "1 << 3",
         "0100#2 | 1001#2",
         "digits 100 pi",
     ];
