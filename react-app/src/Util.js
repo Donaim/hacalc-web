@@ -207,3 +207,8 @@ export function zipMany(arrays) {
 export function zip(a, b) {
     return zipMany([a, b]);
 }
+
+export function getLocationQueryArg(arg) {
+    return new URLSearchParams(window.location.search).get(arg);
+}
+

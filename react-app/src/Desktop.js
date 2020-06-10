@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Window from './Window.js';
-import { stageInterface, getInterface, subscribeInterface } from './Util.js';
+import { getLocationQueryArg, stageInterface, getInterface, subscribeInterface } from './Util.js';
 
 class Desktop extends Component {
 
@@ -73,9 +73,8 @@ class Desktop extends Component {
 
         async function finish_init(me) {
             var st;
-            const loc = window.location;
-            if (loc.pathname.startsWith('/load/')) {
-                const key = loc.pathname.substring('/load/'.length);
+            const key = getLocationQueryArg('load');
+            if (key) {
                 const load = getInterface('load');
                 st = await load(key);
                 console.log('loading from state:', st);

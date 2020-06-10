@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { subscribeInterface } from './Util.js';
+import { getLocationQueryArg, subscribeInterface } from './Util.js';
 
 class Intro extends Component {
 
@@ -9,7 +9,7 @@ class Intro extends Component {
             hidden: false,
         };
 
-        if (window.location.pathname !== '/') {
+        if (getLocationQueryArg('load')) {
             this.state.hidden = true;
         }
 
