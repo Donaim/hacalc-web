@@ -6,7 +6,7 @@
   (sh "cd src && npm install"))
 
 (define-job (inherit)
-  (system "/usr/bin/env bash"))
+  (system (getenv "SHELL")))
 
 (define-env PGDATA "build/pgdata-dir")
 (define-env PGDATABASE "hacalcweb")
@@ -52,11 +52,4 @@
   (let-values
       (((response error) (catch-any#as-pair (sh cmd))))
     (if error #f #t)))
-
-(define (prepare back)
-  (setenv "PGDATA" (PGDATA))
-  (setenv "PGDATABASE" (PGDATABASE))
-  (back))
-
-(set!gumak-main prepare)
 
