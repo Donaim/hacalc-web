@@ -25,6 +25,6 @@ function serverCallback(request, response) {
 }
 
 const server = http.createServer(serverCallback);
-const port = process.env.PORT || 1337;
+const port = process.env.PORT || 44823;
 server.listen(port);
 
