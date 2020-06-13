@@ -6,7 +6,7 @@ function isInternal(line) {
     return line.includes('$');
 }
 
-const SERVER_ADDRESS = 'http://127.0.0.1:1337';
+const SERVER_ADDRESS = eval('SERVER_ADDRESS_REMOTE');
 
 function serverHandlerSend(request, callback) {
     const encoded = encodeURIComponent(request);
