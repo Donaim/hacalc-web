@@ -13,6 +13,7 @@
         "start": "node index.js"
     },
     "dependencies": {
+        "js-base64": "^3.2.4",
         "pg": "==8.2.1"
     }
 }

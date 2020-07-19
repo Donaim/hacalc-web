@@ -11,6 +11,7 @@
  */
 
 const { Client } = require('pg');
+const { encode64, decode64 } = require('./util.js');
 
 const SHARE_TABLE_NAME = 'hacalcschema.share';
 
@@ -40,22 +41,26 @@ async function initialize_client() {
     return new Promise(callback);
 }
 
-async function get_key_value(client, key) {
+async function get_key_value(client, key_unsafe) {
+    const key = encode64(key_unsafe);
     const q = `SELECT value FROM ${SHARE_TABLE_NAME} WHERE id = '${key}'`;
     async function callback(resolve, reject) {
         const response = await client.query(q);
         console.log('response:', response);
         if (response.rows.length !== 1) {
-            reject('bad key');
+            return reject('bad key');
         } else {
-            const result = response.rows[0].value;
-            resolve(result);
+            const result64 = response.rows[0].value;
+            const result = decode64(result64);
+            return resolve(result);
         }
     }
     return new Promise(callback);
 }
 
-async function save_key_value(client, key, value) {
+async function save_key_value(client, key_unsafe, value_unsafe) {
+    const key = encode64(key_unsafe);
+    const value = encode64(value_unsafe);
     const q = `INSERT INTO ${SHARE_TABLE_NAME} VALUES ('${key}', '${value}')`;
     async function callback(resolve, reject) {
         const response = await client.query(q).catch(err => reject(err));
