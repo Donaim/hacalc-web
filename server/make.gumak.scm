@@ -3,6 +3,7 @@
   (depend (node) (postgres)))
 
 (define-job (run-server)
+  (depend (all))
   (sh "cd src && npm run start"))
 
 (define-job (node)
