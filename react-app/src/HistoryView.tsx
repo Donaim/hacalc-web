@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
-import { stageInterface, setInterface, getInterface, subscribeInterface, zip, range } from './Util.js';
-import HistoryElement from './HistoryElement.js';
+import { stageInterface, setInterface, getInterface, subscribeInterface, zip, range } from './Util';
+import HistoryElement from './HistoryElement';
 
-class HistoryView extends Component {
+type Props = {
+    ictx : any;
+    id : any;
+};
+
+type State = {
+    hist : Array<any>;
+};
+
+class HistoryView extends Component<Props, State> {
+
+    ictx : any;
+    id : any;
+    loadId : any;
+    serialize : any;
+    messagesEnd : any;
 
     constructor(args) {
-        super();
+        super(args);
         this.ictx = args.ictx;
         this.id = args.id;
         this.loadId = args.loadId;

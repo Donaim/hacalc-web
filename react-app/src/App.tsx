@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import Desktop from './Desktop.js';
-import Intro from './Intro.js';
-import { stageInterface, subscribeInterface } from './Util.js';
+import Desktop from './Desktop';
+import Intro from './Intro';
+import { stageInterface, subscribeInterface } from './Util';
 
 class App extends Component {
 
-    styles = { height: '90vh',
-             };
+    styles = { height: '90vh' };
 
     innerStyles = { marginTop: 'auto',
                     marginBottom: 'auto',
@@ -16,8 +15,12 @@ class App extends Component {
                     height: '90%',
                   };
 
-    constructor() {
-        super();
+    ictx : any;
+    state;
+    serialize;
+
+    constructor(props) {
+        super(props);
 
         this.ictx = stageInterface(null);
         this.state = null;

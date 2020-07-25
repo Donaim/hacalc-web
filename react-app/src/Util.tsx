@@ -37,7 +37,7 @@ export function interfaceGetGlobalId(ctx) {
     return ret;
 }
 
-export function interfaceGetRelativeId(base, child, skipCheck) {
+export function interfaceGetRelativeId(base, child?, skipCheck?) {
     const ret = [];
     var cur = child;
     var baseCur = base;
@@ -64,7 +64,7 @@ export function interfaceGetRelativeId(base, child, skipCheck) {
     return ret;
 }
 
-export function setInterface(name, handler, mctx) {
+export function setInterface(name, handler, mctx?) {
     const ctx = mctx || interfaceRoot
     console.log('setting', name, 'to interace', mctx, 'that is', ctx);
     for (var cur = ctx; cur; cur = cur.parent) {
@@ -73,7 +73,7 @@ export function setInterface(name, handler, mctx) {
     subscribeInterface(name, handler, mctx);
 }
 
-export function subscribeInterface(name, handler, mctx) {
+export function subscribeInterface(name, handler, mctx?) {
     const ctx = mctx || interfaceRoot
     const me = [mctx, handler];
     for (var cur = ctx; cur; cur = cur.parent) {
@@ -86,7 +86,7 @@ export function subscribeInterface(name, handler, mctx) {
     }
 }
 
-export function unsubscribeInterface(name, handler, mctx) {
+export function unsubscribeInterface(name, handler, mctx?) {
     const ctx = mctx || interfaceRoot;
     const me = [mctx, handler];
 
@@ -129,7 +129,7 @@ export function getInterfaces(name, mctx, skipCheck) {
     };
 }
 
-export function getInterface(name, mctx) {
+export function getInterface(name, mctx?) {
     const f = getInterfaces(name, mctx, false);
     return function(...args) {
         const all = f(...args);
@@ -167,7 +167,7 @@ export function serializeRecursive(ictx, serialize) {
         for (var i = 0; i < allStates.length; i++) {
             const [ctx, response] = allStates[i];
             if (response !== myself) {
-                const id = interfaceGetRelativeId(ictx, ctx);
+                const id: any = interfaceGetRelativeId(ictx, ctx);
                 serialized[id] = response;
             }
         }
@@ -175,7 +175,7 @@ export function serializeRecursive(ictx, serialize) {
     };
 }
 
-export function range(start, stop, step) {
+export function range(start, stop?, step?) {
     if (typeof stop == 'undefined') {
         // one param defined
         stop = start;

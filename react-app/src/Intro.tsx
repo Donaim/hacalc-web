@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
-import { getLocationQueryArg, subscribeInterface } from './Util.js';
+import { getLocationQueryArg, subscribeInterface } from './Util';
 
-class Intro extends Component {
+type Props = {
+};
+
+type State = {
+    hidden: boolean;
+};
+
+class Intro extends Component<Props, State> {
+
+    mounted : boolean;
 
     constructor(args) {
-        super();
-        this.state = {
-            hidden: false,
-        };
+        super(args);
 
-        if (getLocationQueryArg('load')) {
-            this.state.hidden = true;
-        }
+        const startAsHidden = getLocationQueryArg('load') ? true : false;
+        this.state = {
+            hidden: startAsHidden,
+        };
 
         const hide = () => {
             if (this.state.hidden) { return; }

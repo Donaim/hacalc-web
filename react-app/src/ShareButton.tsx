@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
-import { getInterface } from './Util.js';
+import { getInterface } from './Util';
 
-class ShareButton extends Component {
+type Props = {
+    ictx : any;
+};
+
+type State = {
+    text : string;
+};
+
+class ShareButton extends Component<Props, State> {
+
+    ictx : unknown;
+    onClick : (e: any) => any;
+
     constructor(args) {
-        super();
+        super(args);
 
         this.ictx = args.ictx;
         this.state = null;
@@ -19,7 +31,7 @@ class ShareButton extends Component {
 
     render() {
         return (<button className="btn btn-primary"
-                        tabIndex='-1'
+                        tabIndex={-1}
                         onClick={this.onClick} >
                     Share
                 </button>);

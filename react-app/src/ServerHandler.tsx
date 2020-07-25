@@ -1,6 +1,6 @@
 
 import * as md5 from 'md5';
-import { setInterface, json_stringify_circular, json_parse_circular } from './Util.js';
+import { setInterface, json_stringify_circular, json_parse_circular } from './Util';
 
 function isInternal(line) {
     return line.includes('$');
@@ -23,12 +23,12 @@ function serverHandlerSend(request, callback) {
                  }));
             if (decorated.length === 0) {
                 const nonEmpty = lines.filter(line => line !== '');
-                decorated.push({ text: nonEmpty[nonEmpty.length - 1], isResponse: true });
+                decorated.push({ text: nonEmpty[nonEmpty.length - 1], isResponse: true, isFinal: true, isInternal: false });
+            } else {
+                const last = decorated[decorated.length - 1];
+                last.isFinal = true;
+                last.isInternal = false;
             }
-
-            const last = decorated[decorated.length - 1];
-            last.isFinal = true;
-            last.isInternal = false;
 
             const original = { text: request, isResponse: false };
             const ret = [original, ...decorated];
@@ -40,7 +40,8 @@ function serverHandlerSend(request, callback) {
 const serverHandlerShare = (function () {
     return function (state) {
         const s = json_stringify_circular(state);
-        const key = md5(s);
+        const f: any = md5;
+        const key = f(s);
         const parameters = {
             method: 'POST',
             redirect: 'follow',
@@ -58,7 +59,7 @@ const serverHandlerShare = (function () {
             console.log('response:', response);
         }
 
-        fetch(SERVER_ADDRESS + '/share/' + key, parameters).then(callback)
+        fetch(SERVER_ADDRESS + '/share/' + key, parameters as any).then(callback)
 
         return s;
     }

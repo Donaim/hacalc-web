@@ -1,10 +1,33 @@
 import React, { Component } from 'react';
-import { getInterface, subscribeInterface, unsubscribeInterface } from './Util.js';
+import { getInterface, subscribeInterface, unsubscribeInterface } from './Util';
 
-class HistoryElement extends Component {
+type Props = {
+    ictx : any;
+    elem : any;
+    id : any;
+};
+
+type State = {
+    hide : boolean;
+};
+
+class HistoryElement extends Component<Props, State> {
+
+    ictx : any;
+    id : any;
+    mounted : boolean;
+    isInternal : boolean;
+    isMinimal : boolean;
+    text : string;
+    style : React.CSSProperties;
+    elem : any;
+    serialize : any;
+    deserialize : any;
+    wrapSetState : any;
+    setVisibility : any;
 
     constructor(args) {
-        super();
+        super(args);
 
         this.ictx = args.ictx;
         this.id = args.id;

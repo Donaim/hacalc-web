@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
-import { getInterface } from './Util.js';
+import { getInterface } from './Util';
 
-class ConsoleInput extends Component {
+type ConsoleInputProps = {
+    ictx : any;
+};
+
+type ConsoleInputState = {
+    value : string;
+};
+
+class ConsoleInput extends Component<ConsoleInputProps, ConsoleInputState> {
 
     styles = {
         width: '100%',
         paddingLeft: '5px',
     };
 
+    immediateValue;
+    updateValue;
+    onChangeHandler;
+    onResponseHandler;
+    onSubmitHandler;
+
     constructor(args) {
-        super();
+        super(args);
 
         this.immediateValue = '';
         this.state = {value: this.immediateValue};

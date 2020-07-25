@@ -1,10 +1,27 @@
 import React, { Component } from 'react';
-import { subscribeInterface, getInterface, getInterfaces, setInterface } from './Util.js';
+import { subscribeInterface, getInterface, getInterfaces, setInterface } from './Util';
 
-class InternalsButton extends Component {
+type Props = {
+    ictx : any;
+    id : any;
+};
+
+type State = {
+    text : string;
+};
+
+class InternalsButton extends Component<Props, State> {
+
+    ictx : any;
+    id : any;
+    serialize : any;
+    nextStateText : (s : string) => string;
+    cycleState : (s : State) => State;
+    getVisibilityMode : () => string;
+    onClick : any;
 
     constructor(args) {
-        super();
+        super(args);
 
         this.ictx = args.ictx;
         this.id = args.id;
@@ -49,7 +66,7 @@ class InternalsButton extends Component {
     render() {
         return (<button
                     className="btn btn-primary"
-                    tabIndex='-1'
+                    tabIndex={-1}
                     onClick={this.onClick}>
                     {this.nextStateText(this.state.text)}
                 </button>);

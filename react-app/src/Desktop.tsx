@@ -1,15 +1,33 @@
 import React, { Component } from 'react';
-import Window from './Window.js';
-import { getLocationQueryArg, stageInterface, getInterface, subscribeInterface } from './Util.js';
+import Window from './Window';
+import { getLocationQueryArg, stageInterface, getInterface, subscribeInterface } from './Util';
 
-class Desktop extends Component {
+type DesktopProps = {
+    ictx : any;
+};
 
-    styles = { display: 'inline-flex',
-               height: '90%',
-             };
+type DesktopState = {
+    count : number;
+    indexes : Array<any>;
+};
+
+class Desktop extends Component<DesktopProps, DesktopState> {
+
+    styles = {
+        display: 'inline-flex',
+        height: '90%',
+    };
+
+    ictx : any;
+    id : any;
+    mounted : boolean;
+    windows;
+    initWindow;
+    addWindow;
+    state : DesktopState;
 
     constructor(args) {
-        super();
+        super(args);
         this.ictx = args.ictx;
         this.id = args.id;
         this.mounted = false;
@@ -20,6 +38,7 @@ class Desktop extends Component {
         this.initWindow = (parentCount, count) => (windowSerializedState) => {
             const id = this.id + 'DesktopWindow#' + count;
             const window = {
+                ictx: null,
                 serializedState: windowSerializedState,
                 id: id,
                 key: id,
@@ -54,8 +73,8 @@ class Desktop extends Component {
         };
 
         this.addWindow = (parentCount) => (windowSerializedState) => {
-            var repeat = null;
-            var count = undefined;
+            var repeat : boolean | null = null;
+            var count : number | undefined = undefined;
             const update = (state) => {
                 if (repeat === null) {
                     repeat = true;
@@ -75,7 +94,7 @@ class Desktop extends Component {
             var st;
             const key = getLocationQueryArg('load');
             if (key) {
-                const load = getInterface('load');
+                const load = getInterface('load', null);
                 st = await load(key);
                 console.log('loading from state:', st);
             } else {
