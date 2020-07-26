@@ -1,5 +1,6 @@
 {
   "name": "gui",
+  "homepage": "https://donaim.github.io/hacalc-web",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
