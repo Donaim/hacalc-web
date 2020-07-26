@@ -5,7 +5,7 @@ type Props = {
 };
 
 type State = {
-    hidden: boolean;
+    visible: boolean;
 };
 
 class Intro extends Component<Props, State> {
@@ -15,21 +15,22 @@ class Intro extends Component<Props, State> {
     constructor(args) {
         super(args);
 
-        const startAsHidden = getLocationQueryArg('load') ? true : false;
+        const startAsVisible = getLocationQueryArg('load') ? false : true;
         this.state = {
-            hidden: startAsHidden,
+            visible: startAsVisible,
         };
 
-        const hide = () => {
-            if (this.state.hidden) { return; }
-            const update = (state) => ({...state, hidden: true });
+        const visibility = (q) => () => {
+            if (q == this.state.visible) { return; }
+            const update = (state) => ({...state, visible: q });
             if (this.mounted) {
                 this.setState(update);
             } else {
                 this.state = update(this.state);
             }
         };
-        subscribeInterface('server-calc', hide);
+        subscribeInterface('server-calc', visibility(false));
+        subscribeInterface('intro-show', visibility(true));
     }
 
     componentDidMount() {
@@ -49,7 +50,7 @@ class Intro extends Component<Props, State> {
     mapped = this.examples.map(w => <React.Fragment key={w}> Try <code> {w} </code> <br></br> </React.Fragment>);
 
     render() {
-        if (this.state.hidden) {
+        if (!this.state.visible) {
             return null;
         } else {
             return (<React.Fragment>

@@ -35,6 +35,12 @@ class Desktop extends Component<DesktopProps, DesktopState> {
         this.state = { count: 0, indexes: [] };
         this.windows = [];
 
+        const showIntro = getInterface('intro-show', null);
+        const onEmptyDesktop = () => {
+            showIntro();
+            this.addWindow(null)(null);
+        };
+
         this.initWindow = (parentCount, count) => (windowSerializedState) => {
             const id = this.id + 'DesktopWindow#' + count;
             const window = {
@@ -53,6 +59,9 @@ class Desktop extends Component<DesktopProps, DesktopState> {
                 console.log('removing window: ', window.id, 'new:', newWindows);
                 this.windows = newWindows;
                 this.setState(s => ({ ...s, indexes: s.indexes.filter(i => i !== count)}));
+                if (newWindows.length === 0) {
+                    onEmptyDesktop();
+                }
             };
             subscribeInterface('remove-window', removeWindow, ictx);
 
@@ -90,7 +99,7 @@ class Desktop extends Component<DesktopProps, DesktopState> {
             }
         };
 
-        async function finish_init(me) {
+        const finish_init = async () => {
             var st;
             const key = getLocationQueryArg('load');
             if (key) {
@@ -101,9 +110,9 @@ class Desktop extends Component<DesktopProps, DesktopState> {
                 st = null;
             }
 
-            me.addWindow(null)(st);
+            this.addWindow(null)(st);
         }
-        finish_init(this);
+        finish_init();
     }
 
     componentDidMount() {
