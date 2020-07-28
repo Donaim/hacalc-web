@@ -21,7 +21,7 @@ class Intro extends Component<Props, State> {
         };
 
         const visibility = (q) => () => {
-            if (q == this.state.visible) { return; }
+            if (q === this.state.visible) { return; }
             const update = (state) => ({...state, visible: q });
             if (this.mounted) {
                 this.setState(update);
