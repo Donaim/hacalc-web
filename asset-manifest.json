@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/hacalc-web/static/css/main.4e0d0ce6.chunk.css",
+    "main.js": "/hacalc-web/static/js/main.92bb9a48.chunk.js",
+    "main.js.map": "/hacalc-web/static/js/main.92bb9a48.chunk.js.map",
+    "runtime-main.js": "/hacalc-web/static/js/runtime-main.3a8da2d7.js",
+    "runtime-main.js.map": "/hacalc-web/static/js/runtime-main.3a8da2d7.js.map",
+    "static/css/2.a5f06b7f.chunk.css": "/hacalc-web/static/css/2.a5f06b7f.chunk.css",
+    "static/js/2.55ae50fc.chunk.js": "/hacalc-web/static/js/2.55ae50fc.chunk.js",
+    "static/js/2.55ae50fc.chunk.js.map": "/hacalc-web/static/js/2.55ae50fc.chunk.js.map",
+    "index.html": "/hacalc-web/index.html",
+    "precache-manifest.fff0066454680dd7e475628df1e6e088.js": "/hacalc-web/precache-manifest.fff0066454680dd7e475628df1e6e088.js",
+    "service-worker.js": "/hacalc-web/service-worker.js",
+    "static/css/2.a5f06b7f.chunk.css.map": "/hacalc-web/static/css/2.a5f06b7f.chunk.css.map",
+    "static/css/main.4e0d0ce6.chunk.css.map": "/hacalc-web/static/css/main.4e0d0ce6.chunk.css.map",
+    "static/js/2.55ae50fc.chunk.js.LICENSE.txt": "/hacalc-web/static/js/2.55ae50fc.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3a8da2d7.js",
+    "static/css/2.a5f06b7f.chunk.css",
+    "static/js/2.55ae50fc.chunk.js",
+    "static/css/main.4e0d0ce6.chunk.css",
+    "static/js/main.92bb9a48.chunk.js"
+  ]
+}
